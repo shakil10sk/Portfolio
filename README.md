@@ -77,6 +77,31 @@ All content lives in [lib/data.ts](./lib/data.ts) — profile, skills, projects,
 
 The design system tokens (colours, surfaces, brand gradients) are defined in [tailwind.config.ts](./tailwind.config.ts) and [app/globals.css](./app/globals.css).
 
+## Adding images
+
+Image slots live in [`public/images/`](./public/images/README.md). Out of the box every image is a polished generated placeholder — nothing is broken until you opt-in.
+
+| Slot | Path | Recommended size |
+| --- | --- | --- |
+| Avatar (Hero) | `public/images/avatar.jpg` | 400 × 400 |
+| About photo | `public/images/about.jpg` | 800 × 1000 |
+| Project covers | `public/images/projects/<slug>.jpg` | 1600 × 900 |
+
+After dropping a file, set the path in `lib/data.ts`:
+
+```ts
+export const profile = {
+  avatar: "/images/avatar.jpg",
+  aboutImage: "/images/about.jpg",
+  // …
+};
+
+// On a project entry:
+image: "/images/projects/rajuk.jpg",
+```
+
+If a path is wrong, the component falls back to the placeholder automatically — no broken images.
+
 ## Accessibility & performance
 
 - Skip-to-content link

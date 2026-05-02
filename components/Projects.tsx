@@ -4,10 +4,17 @@ import * as React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, Github, Filter } from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { ProjectCover } from "@/components/ui/ProjectCover";
 import { projects, type Project } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
-const categories = ["All", "Government", "Fintech", "E-commerce", "Internal Tool"] as const;
+const categories = [
+  "All",
+  "Government",
+  "Fintech",
+  "E-commerce",
+  "Internal Tool",
+] as const;
 type Category = (typeof categories)[number];
 
 export function Projects() {
@@ -57,7 +64,7 @@ export function Projects() {
 
         <motion.div
           layout
-          className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
+          className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
         >
           <AnimatePresence mode="popLayout">
             {filtered.map((project, i) => (
@@ -78,34 +85,25 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.96 }}
       transition={{ duration: 0.4, delay: (index % 6) * 0.04 }}
-      className="group relative flex flex-col overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 hover:border-indigo-300 dark:hover:border-indigo-700/60 transition-all duration-300 hover:-translate-y-1"
+      className="group relative flex flex-col overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 hover:border-indigo-300 dark:hover:border-indigo-700/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-indigo-500/5"
     >
-      {/* Visual header */}
-      <div
-        className={cn(
-          "relative h-40 overflow-hidden bg-gradient-to-br p-6",
-          project.accent,
-        )}
-      >
-        <div className="absolute inset-0 grid-bg opacity-50 [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]" />
-        <div className="relative flex items-start justify-between">
-          <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-white/80 dark:bg-zinc-950/70 backdrop-blur ring-1 ring-zinc-200/80 dark:ring-zinc-800 text-indigo-600 dark:text-indigo-400 shadow-sm">
-            <project.icon className="h-6 w-6" />
-          </div>
-          <span className="rounded-full bg-white/80 dark:bg-zinc-950/70 backdrop-blur px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-400 ring-1 ring-zinc-200/80 dark:ring-zinc-800">
-            {project.category}
+      <ProjectCover
+        src={project.image}
+        alt={project.title}
+        icon={project.icon}
+        category={project.category}
+        theme={project.theme}
+      />
+
+      <div className="flex flex-1 flex-col p-6">
+        <div className="flex items-start justify-between gap-3">
+          <h3 className="font-display text-lg font-semibold text-zinc-900 dark:text-zinc-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+            {project.title}
+          </h3>
+          <span className="text-[10px] font-mono text-zinc-400 mt-1.5 shrink-0">
+            #{String(index + 1).padStart(2, "0")}
           </span>
         </div>
-        <p className="absolute bottom-5 left-6 right-6 font-mono text-xs text-zinc-700/80 dark:text-zinc-300/80">
-          {project.summary}
-        </p>
-      </div>
-
-      {/* Body */}
-      <div className="flex flex-1 flex-col p-6">
-        <h3 className="font-display text-lg font-semibold text-zinc-900 dark:text-zinc-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-          {project.title}
-        </h3>
         <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
           {project.description}
         </p>
@@ -133,13 +131,13 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           ))}
         </div>
 
-        <div className="mt-auto pt-6 flex items-center gap-3">
+        <div className="mt-auto pt-6 flex items-center gap-3 text-xs">
           {project.link && (
             <a
               href={project.link}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1.5 text-xs font-medium text-indigo-600 dark:text-indigo-400 hover:underline"
+              className="inline-flex items-center gap-1.5 font-medium text-indigo-600 dark:text-indigo-400 hover:underline"
             >
               Live <ArrowUpRight className="h-3 w-3" />
             </a>
@@ -149,13 +147,13 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
               href={project.github}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1.5 text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:text-indigo-500"
+              className="inline-flex items-center gap-1.5 font-medium text-zinc-700 dark:text-zinc-300 hover:text-indigo-500"
             >
               <Github className="h-3 w-3" /> Code
             </a>
           )}
-          <span className="ml-auto text-[11px] font-mono text-zinc-400">
-            #{String(index + 1).padStart(2, "0")}
+          <span className="ml-auto text-zinc-500">
+            {project.stack.length} tech
           </span>
         </div>
       </div>

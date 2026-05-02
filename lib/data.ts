@@ -33,7 +33,22 @@ export const profile = {
   linkedin: "https://linkedin.com/in/shakil10sk",
   resumeUrl: "/cv/One_page_cv_shakil-compressed.pdf",
   availability: "Open to remote frontend & full-stack roles",
+  // ── IMAGE SLOTS ────────────────────────────────────────────────────────
+  // Set these paths once you've dropped files into /public/images/.
+  // While `undefined`, the UI shows beautiful generated placeholders.
+  //
+  //   avatar:      "/images/avatar.jpg"   → 400×400 portrait
+  //   aboutImage:  "/images/about.jpg"    → 800×1000 editorial photo
+  avatar: undefined as string | undefined,
+  aboutImage: undefined as string | undefined,
 };
+
+export const heroBadges = [
+  { label: "React", x: "-8%", y: "8%", delay: 0 },
+  { label: "Next.js", x: "92%", y: "14%", delay: 0.3 },
+  { label: "TypeScript", x: "-12%", y: "62%", delay: 0.6 },
+  { label: "Tailwind", x: "94%", y: "70%", delay: 0.9 },
+];
 
 export const stats = [
   { label: "Years of experience", value: "4+" },
@@ -149,6 +164,10 @@ export type Project = {
   link?: string;
   github?: string;
   category: "Government" | "Fintech" | "E-commerce" | "Internal Tool";
+  /** Optional cover image. Drop a 1600x900 file at e.g. /public/images/projects/rajuk.jpg */
+  image?: string;
+  /** Color theme used by the generated cover when no image is provided. */
+  theme?: "indigo" | "sky" | "emerald" | "fuchsia" | "amber" | "rose" | "violet" | "lime";
 };
 
 export const projects: Project[] = [
@@ -166,6 +185,8 @@ export const projects: Project[] = [
     ],
     icon: Building2,
     accent: "from-indigo-500/30 to-violet-500/10",
+    theme: "indigo",
+    // image: "/images/projects/rajuk.jpg",
   },
   {
     title: "BTRC LIMS",
@@ -181,6 +202,8 @@ export const projects: Project[] = [
     ],
     icon: Landmark,
     accent: "from-sky-500/30 to-blue-500/10",
+    theme: "sky",
+    // image: "/images/projects/btrc.jpg",
   },
   {
     title: "Ministry of Land — Mutation",
@@ -196,6 +219,8 @@ export const projects: Project[] = [
     ],
     icon: Landmark,
     accent: "from-emerald-500/30 to-teal-500/10",
+    theme: "emerald",
+    // image: "/images/projects/mutation.jpg",
   },
   {
     title: "Sheba Platform — 3-Tier Ecosystem",
@@ -211,6 +236,8 @@ export const projects: Project[] = [
     ],
     icon: CreditCard,
     accent: "from-fuchsia-500/30 to-pink-500/10",
+    theme: "fuchsia",
+    // image: "/images/projects/sheba.jpg",
   },
   {
     title: "Marketing Olympiad",
@@ -226,6 +253,8 @@ export const projects: Project[] = [
     ],
     icon: Trophy,
     accent: "from-amber-500/30 to-orange-500/10",
+    theme: "amber",
+    // image: "/images/projects/olympiad.jpg",
   },
   {
     title: "AmarParcel Delivery",
@@ -241,6 +270,8 @@ export const projects: Project[] = [
     ],
     icon: Truck,
     accent: "from-rose-500/30 to-red-500/10",
+    theme: "rose",
+    // image: "/images/projects/amarparcel.jpg",
   },
   {
     title: "Pharmacy POS",
@@ -256,6 +287,8 @@ export const projects: Project[] = [
     ],
     icon: Stethoscope,
     accent: "from-violet-500/30 to-purple-500/10",
+    theme: "violet",
+    // image: "/images/projects/pharmacy.jpg",
   },
   {
     title: "E-commerce Storefronts",
@@ -271,6 +304,8 @@ export const projects: Project[] = [
     ],
     icon: ShoppingCart,
     accent: "from-emerald-500/30 to-green-500/10",
+    theme: "lime",
+    // image: "/images/projects/storefronts.jpg",
   },
 ];
 
