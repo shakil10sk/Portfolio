@@ -2,7 +2,8 @@
 
 import * as React from "react";
 import Image from "next/image";
-import type { LucideIcon } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronLeft, ChevronRight, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type Theme =
@@ -60,6 +61,7 @@ const themeMap: Record<Theme, { bg: string; ring: string; dot: string }> = {
 
 type Props = {
   src?: string;
+  images?: string[];
   alt: string;
   icon: LucideIcon;
   category: string;
@@ -68,20 +70,47 @@ type Props = {
 };
 
 /**
- * Project cover image with a generated fallback. Drop a 1600x900 image at the
- * `src` path to replace the placeholder — the component swaps in seamlessly.
+ * Project cover with optional multi-image slider.
+ *
+ * Pass `images={[...]}` (2+ entries) to enable the slider — prev/next arrows,
+ * dot indicators and an image counter appear automatically. Pass `src` for a
+ * single image, or neither to render the themed generated fallback.
  */
 export function ProjectCover({
   src,
+  images,
   alt,
   icon: Icon,
   category,
   theme = "indigo",
   className,
 }: Props) {
-  const [errored, setErrored] = React.useState(false);
+  const allImages = React.useMemo(() => {
+    if (images && images.length > 0) return images;
+    if (src) return [src];
+    return [] as string[];
+  }, [images, src]);
+
+  const [index, setIndex] = React.useState(0);
+  const [erroredAt, setErroredAt] = React.useState<Set<number>>(new Set());
+  const [direction, setDirection] = React.useState(1);
   const t = themeMap[theme];
-  const showImage = src && !errored;
+
+  React.useEffect(() => {
+    if (index >= allImages.length) setIndex(0);
+  }, [allImages.length, index]);
+
+  const hasImages = allImages.length > 0 && erroredAt.size < allImages.length;
+  const isSlider = allImages.length > 1;
+
+  const goTo = (next: number, dir: number, e?: React.SyntheticEvent) => {
+    e?.preventDefault();
+    e?.stopPropagation();
+    setDirection(dir);
+    setIndex(((next % allImages.length) + allImages.length) % allImages.length);
+  };
+  const goPrev = (e?: React.SyntheticEvent) => goTo(index - 1, -1, e);
+  const goNext = (e?: React.SyntheticEvent) => goTo(index + 1, 1, e);
 
   return (
     <div
@@ -90,19 +119,74 @@ export function ProjectCover({
         "aspect-[16/10]",
         className,
       )}
+      onKeyDown={
+        isSlider
+          ? (e) => {
+              if (e.key === "ArrowLeft") goPrev(e);
+              else if (e.key === "ArrowRight") goNext(e);
+            }
+          : undefined
+      }
     >
-      {showImage ? (
+      {hasImages ? (
         <>
-          <Image
-            src={src!}
-            alt={alt}
-            fill
-            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            onError={() => setErrored(true)}
-            className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-zinc-950/20 to-transparent" />
-          <div className="absolute inset-x-4 bottom-4 flex items-end justify-between">
+          <AnimatePresence initial={false} mode="wait" custom={direction}>
+            <motion.div
+              key={index}
+              custom={direction}
+              initial={{ opacity: 0, x: direction * 24 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: direction * -24 }}
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute inset-0"
+            >
+              <Image
+                src={allImages[index]}
+                alt={isSlider ? `${alt} — image ${index + 1}` : alt}
+                fill
+                sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                onError={() =>
+                  setErroredAt((prev) => {
+                    const next = new Set(prev);
+                    next.add(index);
+                    return next;
+                  })
+                }
+                className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+              />
+            </motion.div>
+          </AnimatePresence>
+
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-zinc-950/85 via-zinc-950/25 to-transparent" />
+
+          {/* Top row: dot indicators (left) + counter (right) — only when slider */}
+          {isSlider && (
+            <div className="absolute inset-x-3 top-3 flex items-center justify-between">
+              <div className="flex items-center gap-1.5 rounded-full bg-zinc-950/40 backdrop-blur px-2 py-1.5 ring-1 ring-white/15">
+                {allImages.map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={(e) => goTo(i, i > index ? 1 : -1, e)}
+                    aria-label={`Go to image ${i + 1}`}
+                    aria-current={i === index}
+                    className={cn(
+                      "h-1.5 rounded-full transition-all",
+                      i === index
+                        ? "w-5 bg-white"
+                        : "w-1.5 bg-white/45 hover:bg-white/70",
+                    )}
+                  />
+                ))}
+              </div>
+              <span className="rounded-full bg-zinc-950/40 backdrop-blur px-2 py-1 text-[10px] font-mono text-white/90 ring-1 ring-white/15 tabular-nums">
+                {index + 1} / {allImages.length}
+              </span>
+            </div>
+          )}
+
+          {/* Bottom row: category + project icon */}
+          <div className="pointer-events-none absolute inset-x-4 bottom-4 flex items-end justify-between">
             <span className="rounded-full bg-white/10 backdrop-blur-md px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider text-white ring-1 ring-white/20">
               {category}
             </span>
@@ -110,15 +194,31 @@ export function ProjectCover({
               <Icon className="h-4 w-4" />
             </div>
           </div>
+
+          {/* Arrow controls — show on hover/focus for slider only */}
+          {isSlider && (
+            <>
+              <button
+                type="button"
+                onClick={goPrev}
+                aria-label="Previous image"
+                className="absolute left-3 top-1/2 -translate-y-1/2 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/15 backdrop-blur-md text-white ring-1 ring-white/20 opacity-0 group-hover:opacity-100 hover:bg-white/25 transition-all focus:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </button>
+              <button
+                type="button"
+                onClick={goNext}
+                aria-label="Next image"
+                className="absolute right-3 top-1/2 -translate-y-1/2 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/15 backdrop-blur-md text-white ring-1 ring-white/20 opacity-0 group-hover:opacity-100 hover:bg-white/25 transition-all focus:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+              >
+                <ChevronRight className="h-4 w-4" />
+              </button>
+            </>
+          )}
         </>
       ) : (
-        <div
-          className={cn(
-            "absolute inset-0 bg-gradient-to-br",
-            t.bg,
-          )}
-        >
-          {/* dotted pattern */}
+        <div className={cn("absolute inset-0 bg-gradient-to-br", t.bg)}>
           <svg
             aria-hidden
             className="absolute inset-0 h-full w-full text-zinc-900/10 dark:text-white/10"
@@ -135,14 +235,12 @@ export function ProjectCover({
             </defs>
             <rect width="100%" height="100%" fill={`url(#dots-${theme})`} />
           </svg>
-          {/* corner accent */}
           <div
             className={cn(
               "absolute -top-12 -right-12 h-44 w-44 rounded-full blur-3xl opacity-50",
               `bg-${theme}-500/40`,
             )}
           />
-          {/* mock window */}
           <div className="absolute inset-x-6 top-6 rounded-lg bg-white/70 dark:bg-zinc-950/60 backdrop-blur ring-1 ring-zinc-200/60 dark:ring-zinc-800 shadow-sm">
             <div className="flex items-center gap-1.5 px-3 py-2">
               <span className="h-2 w-2 rounded-full bg-rose-400/80" />
@@ -163,7 +261,12 @@ export function ProjectCover({
                 t.ring,
               )}
             >
-              <span className={cn("inline-block mr-1.5 h-1.5 w-1.5 rounded-full align-middle", t.dot)} />
+              <span
+                className={cn(
+                  "inline-block mr-1.5 h-1.5 w-1.5 rounded-full align-middle",
+                  t.dot,
+                )}
+              />
               {category}
             </span>
             <div

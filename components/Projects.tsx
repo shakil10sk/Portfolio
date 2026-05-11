@@ -89,6 +89,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
     >
       <ProjectCover
         src={project.image}
+        images={project.images}
         alt={project.title}
         icon={project.icon}
         category={project.category}

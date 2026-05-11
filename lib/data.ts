@@ -39,8 +39,8 @@ export const profile = {
   //
   //   avatar:      "/images/avatar.jpg"   → 400×400 portrait
   //   aboutImage:  "/images/about.jpg"    → 800×1000 editorial photo
-  avatar: undefined as string | undefined,
-  aboutImage: undefined as string | undefined,
+  avatar: "/images/my.png" as string | undefined,
+  aboutImage: "/images/my.png" as string | undefined,
 };
 
 export const heroBadges = [
@@ -164,8 +164,15 @@ export type Project = {
   link?: string;
   github?: string;
   category: "Government" | "Fintech" | "E-commerce" | "Internal Tool";
-  /** Optional cover image. Drop a 1600x900 file at e.g. /public/images/projects/rajuk.jpg */
+  /** Optional single cover image. Drop a 1600x900 file at e.g. /public/images/projects/rajuk.jpg */
   image?: string;
+  /**
+   * Optional multi-image gallery. When 2+ entries are provided, the cover
+   * renders an interactive slider with prev/next buttons, dot indicators
+   * and an image counter. Overrides `image` when present.
+   * Drop files at e.g. /public/images/projects/rajuk-1.jpg, rajuk-2.jpg…
+   */
+  images?: string[];
   /** Color theme used by the generated cover when no image is provided. */
   theme?: "indigo" | "sky" | "emerald" | "fuchsia" | "amber" | "rose" | "violet" | "lime";
 };
@@ -187,6 +194,11 @@ export const projects: Project[] = [
     accent: "from-indigo-500/30 to-violet-500/10",
     theme: "indigo",
     // image: "/images/projects/rajuk.jpg",
+    // images: [
+    //   "/images/projects/rajuk-1.jpg",
+    //   "/images/projects/rajuk-2.jpg",
+    //   "/images/projects/rajuk-3.jpg",
+    // ],
   },
   {
     title: "BTRC LIMS",
