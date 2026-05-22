@@ -37,10 +37,12 @@ export const profile = {
   // Set these paths once you've dropped files into /public/images/.
   // While `undefined`, the UI shows beautiful generated placeholders.
   //
-  //   avatar:      "/images/avatar.jpg"   → 400×400 portrait
-  //   aboutImage:  "/images/about.jpg"    → 800×1000 editorial photo
-  avatar: "/images/my.png" as string | undefined,
-  aboutImage: "/images/my.png" as string | undefined,
+  //   avatar:      "/images/shakil.jpeg"   → 400×400 portrait
+  //   aboutImage:  "/images/shakil.jpeg"    → 800×1000 editorial photo
+  // avatar: "/images/my.png" as string | undefined,
+  // aboutImage: "/images/my.png" as string | undefined,
+  avatar: "/images/shakil.jpeg" as string | undefined,
+  aboutImage: "/images/shakil.jpeg" as string | undefined,
 };
 
 export const heroBadges = [
