@@ -15,11 +15,11 @@ import { contactItems, profile, socials } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
 const helpTags = [
-  "Frontend engineering",
+  "Backend engineering",
+  "API design & integration",
   "Performance audits",
-  "Design-to-code",
+  "DevOps & CI/CD",
   "Vue & React",
-  "API integration",
   "Production deploys",
 ];
 

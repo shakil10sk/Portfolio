@@ -24,15 +24,15 @@ export const profile = {
   name: "Md Shakil Hussain",
   shortName: "Shakil",
   role: "Full-Stack Software Engineer",
-  tagline: "Frontend-focused engineer crafting fast, accessible, production-ready interfaces.",
-  bio: "Software engineer with 4+ years of experience shipping enterprise platforms, government applications, and high-traffic products. I specialize in building modern frontends with React, Next.js, Vue, and Nuxt — backed by clean APIs and a strong DevOps foundation.",
+  tagline: "Backend-focused full-stack engineer building robust, secure, production systems.",
+  bio: "Full-Stack Software Engineer with 4+ years building scalable enterprise systems, government applications, and high-traffic platforms. Deep backend experience with Laravel and Node.js, plus production-ready frontends with React, Next.js and Vue — backed by strong DevOps and API design practices.",
   location: "Dhaka, Bangladesh",
   email: "shakilh039@gmail.com",
   phone: "+8801636-639790",
   github: "https://github.com/shakil10sk",
-  linkedin: "https://linkedin.com/in/shakil10sk",
+  linkedin: "https://www.linkedin.com/in/shakil-hussain-h039/",
   resumeUrl: "/cv/One_page_cv_shakil-compressed.pdf",
-  availability: "Open to remote frontend & full-stack roles",
+  availability: "Open to remote backend & full-stack roles",
   // ── IMAGE SLOTS ────────────────────────────────────────────────────────
   // Set these paths once you've dropped files into /public/images/.
   // While `undefined`, the UI shows beautiful generated placeholders.
@@ -67,30 +67,6 @@ export type SkillGroup = {
 
 export const skillGroups: SkillGroup[] = [
   {
-    title: "Frontend Frameworks",
-    icon: Code2,
-    description:
-      "Component-driven UIs with React, Next.js and Vue/Nuxt — focus on performance and DX.",
-    items: ["React.js", "Next.js", "Vue 3", "Nuxt.js", "TypeScript", "JavaScript (ES2023)"],
-    accent: "from-indigo-500/20 to-violet-500/10",
-  },
-  {
-    title: "State Management",
-    icon: Layers,
-    description:
-      "Predictable state across complex apps — from local stores to global async flows.",
-    items: ["Redux Toolkit", "Zustand", "React Context", "Vuex", "Pinia", "TanStack Query"],
-    accent: "from-fuchsia-500/20 to-pink-500/10",
-  },
-  {
-    title: "Styling & UI",
-    icon: Wrench,
-    description:
-      "Design-system thinking with utility-first CSS, accessible primitives and motion.",
-    items: ["Tailwind CSS", "Framer Motion", "Radix UI", "shadcn/ui", "SCSS", "Bootstrap"],
-    accent: "from-emerald-500/20 to-teal-500/10",
-  },
-  {
     title: "Backend & APIs",
     icon: Database,
     description:
@@ -121,6 +97,30 @@ export const skillGroups: SkillGroup[] = [
       "Real-world integrations across payments, telephony and identity providers.",
     items: ["bKash", "Sheba Pay", "Firebase", "gPlex Call Center", "Keycloak", "Fingerprint Auth"],
     accent: "from-violet-500/20 to-purple-500/10",
+  },
+  {
+    title: "Frontend Frameworks",
+    icon: Code2,
+    description:
+      "Component-driven UIs with React, Next.js and Vue/Nuxt — focus on performance and DX.",
+    items: ["React.js", "Next.js", "Vue 3", "Nuxt.js", "TypeScript", "JavaScript (ES2023)"],
+    accent: "from-indigo-500/20 to-violet-500/10",
+  },
+  {
+    title: "State Management",
+    icon: Layers,
+    description:
+      "Predictable state across complex apps — from local stores to global async flows.",
+    items: ["Redux Toolkit", "Zustand", "React Context", "Vuex", "Pinia", "TanStack Query"],
+    accent: "from-fuchsia-500/20 to-pink-500/10",
+  },
+  {
+    title: "Styling & UI",
+    icon: Wrench,
+    description:
+      "Design-system thinking with utility-first CSS, accessible primitives and motion.",
+    items: ["Tailwind CSS", "Framer Motion", "Radix UI", "shadcn/ui", "SCSS", "Bootstrap"],
+    accent: "from-emerald-500/20 to-teal-500/10",
   },
   {
     title: "Process & Practices",
@@ -179,43 +179,40 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    title: "RAJUK EPMS",
-    category: "Government",
-    summary: "Electronic plan management for the capital development authority.",
+    title: "Voice Nimble — AI Voice Agents",
+    category: "Internal Tool",
+    summary: "AI voice calling agents for customer qualification and support.",
     description:
-      "A high-traffic government platform serving millions of citizens for plan submission, review and approval. Built modular Vue 3 + Vuex front-ends and integrated fingerprint-based authentication for secure case handling.",
-    stack: ["Vue 3", "Vuex", "Tailwind", "Laravel", "Nginx"],
+      "A SaaS product providing AI voice agents that answer, qualify and convert customer calls 24/7. Implemented frontend landing pages and integrated with telephony APIs for production call flows.",
+    stack: ["Node.js", "React", "Twilio / Telephony", "Docker"],
     highlights: [
-      "Fingerprint authentication for officers",
-      "Optimized list views for large datasets",
-      "Role-based dashboards for 6+ user types",
+      "AI-driven call qualification",
+      "Production telephony integration",
+      "Customer-facing landing and analytics",
     ],
-    icon: Building2,
+    icon: Globe,
     accent: "from-indigo-500/30 to-violet-500/10",
-    theme: "indigo",
-    // image: "/images/projects/rajuk.jpg",
-    // images: [
-    //   "/images/projects/rajuk-1.jpg",
-    //   "/images/projects/rajuk-2.jpg",
-    //   "/images/projects/rajuk-3.jpg",
-    // ],
+    theme: "violet",
+    image: "/images/projects/voicenimble.jpg",
+    link: "https://voicenimble.com/",
   },
   {
-    title: "BTRC LIMS",
-    category: "Government",
-    summary: "License & inspection management for the telecom regulator.",
+    title: "Overwatch — Admin Dashboard",
+    category: "Internal Tool",
+    summary: "Admin dashboard and operations console for agricultural services.",
     description:
-      "A regulator-grade licensing system replacing legacy workflows. Implemented complex workflow engines, dynamic forms, and reporting dashboards with strong audit trails.",
-    stack: ["Vue 3", "NestJS", "PostgreSQL", "Docker", "RabbitMQ"],
+      "A modern admin dashboard for operations and analytics. Built responsive UI components, performance-optimised list views and monitoring surfaces for system health and user management.",
+    stack: ["React", "TypeScript", "Tailwind", "Node.js"],
     highlights: [
-      "End-to-end licensing workflow engine",
-      "Real-time notifications via RabbitMQ",
-      "Generated PDF reports with audit logs",
+      "Real-time metrics and activity feeds",
+      "Operator-focused workflows",
+      "Performance optimisations for large datasets",
     ],
-    icon: Landmark,
+    icon: Layers,
     accent: "from-sky-500/30 to-blue-500/10",
     theme: "sky",
-    // image: "/images/projects/btrc.jpg",
+    image: "/images/projects/overwatch.jpg",
+    link: "https://overwatch.agrovue.io/",
   },
   {
     title: "Ministry of Land — Mutation",
@@ -232,7 +229,8 @@ export const projects: Project[] = [
     icon: Landmark,
     accent: "from-emerald-500/30 to-teal-500/10",
     theme: "emerald",
-    // image: "/images/projects/mutation.jpg",
+    image: "/images/projects/mutation.jpg",
+    link: "https://mutation.land.gov.bd/",
   },
   {
     title: "Sheba Platform — 3-Tier Ecosystem",
@@ -286,6 +284,45 @@ export const projects: Project[] = [
     // image: "/images/projects/amarparcel.jpg",
   },
   {
+    title: "RAJUK EPMS",
+    category: "Government",
+    summary: "Electronic plan management for the capital development authority.",
+    description:
+      "A high-traffic government platform serving millions of citizens for plan submission, review and approval. Built modular Vue 3 + Vuex front-ends and integrated fingerprint-based authentication for secure case handling.",
+    stack: ["Vue 3", "Vuex", "Tailwind", "Laravel", "Nginx"],
+    highlights: [
+      "Fingerprint authentication for officers",
+      "Optimized list views for large datasets",
+      "Role-based dashboards for 6+ user types",
+    ],
+    icon: Building2,
+    accent: "from-indigo-500/30 to-violet-500/10",
+    theme: "indigo",
+    image: "/images/projects/rajuk.png",
+    // images: [
+    //   "/images/projects/rajuk-1.jpg",
+    //   "/images/projects/rajuk-2.jpg",
+    //   "/images/projects/rajuk-3.jpg",
+    // ],
+  },
+  {
+    title: "BTRC LIMS",
+    category: "Government",
+    summary: "License & inspection management for the telecom regulator.",
+    description:
+      "A regulator-grade licensing system replacing legacy workflows. Implemented complex workflow engines, dynamic forms, and reporting dashboards with strong audit trails.",
+    stack: ["Vue 3", "NestJS", "PostgreSQL", "Docker", "RabbitMQ"],
+    highlights: [
+      "End-to-end licensing workflow engine",
+      "Real-time notifications via RabbitMQ",
+      "Generated PDF reports with audit logs",
+    ],
+    icon: Landmark,
+    accent: "from-sky-500/30 to-blue-500/10",
+    theme: "sky",
+    // image: "/images/projects/btrc.jpg",
+  },
+  {
     title: "Pharmacy POS",
     category: "E-commerce",
     summary: "Point of sale with inventory & reporting.",
@@ -318,7 +355,7 @@ export const projects: Project[] = [
     accent: "from-emerald-500/30 to-green-500/10",
     theme: "lime",
     // image: "/images/projects/storefronts.jpg",
-  },
+  }
 ];
 
 export type Experience = {

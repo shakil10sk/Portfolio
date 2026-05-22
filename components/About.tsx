@@ -16,14 +16,14 @@ import { stats, education, profile } from "@/lib/data";
 
 const pillars = [
   {
-    icon: Code,
-    title: "Frontend craft",
-    body: "Component architecture, accessibility and performance — with React, Next.js and Vue.",
+    icon: Server,
+    title: "Backend engineering",
+    body: "API design, scalable services and database performance — Laravel, NestJS and FastAPI.",
   },
   {
-    icon: Server,
-    title: "Real backend chops",
-    body: "Comfortable across Laravel, NestJS and FastAPI — APIs you can actually trust.",
+    icon: Code,
+    title: "Frontend craft",
+    body: "Component architecture, accessibility and performance — React, Next.js and Vue.",
   },
   {
     icon: Workflow,
@@ -93,8 +93,8 @@ export function About() {
           <div className="lg:col-span-7">
             <SectionHeading
               eyebrow="About"
-              title="An engineer who treats UI like a product."
-              description="I started in PHP and shipped enterprise platforms for governments and fintech. Today I focus on frontend — accessible, animated, performance-tuned interfaces — without losing the systems thinking I picked up on the backend."
+              title="An engineer who treats systems like products."
+              description="Full-Stack Software Engineer with 4+ years building scalable enterprise systems, government applications, and high-traffic platforms. I work across backend services (Laravel, Node.js), frontend interfaces (Vue, React) and DevOps practices to ship reliable production software."
             />
 
             <motion.div

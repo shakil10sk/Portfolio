@@ -54,28 +54,9 @@ export function Hero() {
               transition={{ duration: 0.6, delay: 0.05 }}
               className="mt-6 font-display font-semibold tracking-[-0.03em] text-[2.6rem] leading-[1.04] sm:text-6xl lg:text-[5.25rem] lg:leading-[0.98]"
             >
-              <span className="block text-gradient">Frontend engineer</span>
-              <span className="block text-gradient">
-                shipping{" "}
-                <span className="relative inline-block">
-                  <span className="text-gradient-brand italic font-display">premium</span>
-                  <svg
-                    aria-hidden
-                    viewBox="0 0 200 12"
-                    className="absolute -bottom-1 left-0 w-full h-3 text-indigo-500/80"
-                    preserveAspectRatio="none"
-                  >
-                    <path
-                      d="M2 8 Q 50 2, 100 6 T 198 6"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      fill="none"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                </span>
-              </span>
-              <span className="block text-gradient">web experiences.</span>
+              <span className="block text-gradient">Backend-focused Full-Stack Engineer</span>
+              <span className="block text-gradient">shipping robust, scalable systems</span>
+              <span className="block text-gradient">and production-ready web experiences.</span>
             </motion.h1>
 
             <motion.p
@@ -84,7 +65,7 @@ export function Hero() {
               transition={{ duration: 0.5, delay: 0.15 }}
               className="mt-7 max-w-xl text-base sm:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed"
             >
-              I'm <span className="font-medium text-zinc-900 dark:text-zinc-100">{profile.name}</span> — a {profile.role.toLowerCase()} based in {profile.location}. I build accessible, performance-tuned interfaces with React, Next.js and Vue, backed by Laravel and Node APIs.
+              I'm <span className="font-medium text-zinc-900 dark:text-zinc-100">{profile.name}</span> — a {profile.role.toLowerCase()} based in {profile.location}. I design and build robust backend systems with Laravel and Node.js, and deliver production-ready frontends with React, Next.js and Vue.
             </motion.p>
 
             <motion.div
@@ -164,8 +145,8 @@ export function Hero() {
                 </div>
 
                 <div className="mt-6 grid grid-cols-3 gap-2 rounded-2xl bg-zinc-50 dark:bg-zinc-900/60 p-3 ring-1 ring-zinc-200 dark:ring-zinc-800">
-                  <Mini label="Stack" value="React + Vue" />
-                  <Mini label="Focus" value="Frontend" />
+                  <Mini label="Stack" value="Laravel | Node | Vue | React" />
+                  <Mini label="Focus" value="Backend" />
                   <Mini label="Mode" value="Remote" />
                 </div>
 
