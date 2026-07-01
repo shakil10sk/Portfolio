@@ -22,7 +22,7 @@ import {
 
 export const profile = {
   name: "Md Shakil Hussain",
-  shortName: "Shakil",
+  shortName: "ShakilHussain",
   role: "Full-Stack Software Engineer",
   tagline: "Backend-focused full-stack engineer building robust, secure, production systems.",
   bio: "Full-Stack Software Engineer with 4+ years building scalable enterprise systems, government applications, and high-traffic platforms. Deep backend experience with Laravel and Node.js, plus production-ready frontends with React, Next.js and Vue — backed by strong DevOps and API design practices.",

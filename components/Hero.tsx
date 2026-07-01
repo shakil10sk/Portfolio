@@ -54,9 +54,8 @@ export function Hero() {
               transition={{ duration: 0.6, delay: 0.05 }}
               className="mt-6 font-display font-semibold tracking-[-0.03em] text-[2.6rem] leading-[1.04] sm:text-6xl lg:text-[5.25rem] lg:leading-[0.98]"
             >
-              <span className="block text-gradient">Backend-focused Full-Stack Engineer</span>
-              <span className="block text-gradient">shipping robust, scalable systems</span>
-              <span className="block text-gradient">and production-ready web experiences.</span>
+              <span className="block text-gradient">Backend-focused</span>
+              <span className="block text-gradient">Full-Stack Engineer</span>
             </motion.h1>
 
             <motion.p
