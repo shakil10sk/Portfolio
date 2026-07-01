@@ -1,0 +1,54 @@
+name: Deploy to cPanel
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload build to server
+        uses: burnett01/rsync-deployments@7.0.1
+        with:
+          switches: -avzr --delete
+          # Only ship what the server needs to run; node_modules is
+          # reinstalled on the server so native deps match its architecture.
+          exclude: >-
+            .git/ .github/ node_modules/ .next/cache/
+            *.md Archive.zip .env* .DS_Store
+          path: ./
+          remote_path: ${{ secrets.CPANEL_APP_PATH }}
+          remote_host: ${{ secrets.CPANEL_SSH_HOST }}
+          remote_port: ${{ secrets.CPANEL_SSH_PORT }}
+          remote_user: ${{ secrets.CPANEL_SSH_USERNAME }}
+          remote_key: ${{ secrets.CPANEL_SSH_KEY }}
+
+      - name: Install prod deps and restart app
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.CPANEL_SSH_HOST }}
+          port: ${{ secrets.CPANEL_SSH_PORT }}
+          username: ${{ secrets.CPANEL_SSH_USERNAME }}
+          key: ${{ secrets.CPANEL_SSH_KEY }}
+          script: |
+            source ${{ secrets.CPANEL_NODE_VENV_ACTIVATE }}
+            cd ${{ secrets.CPANEL_APP_PATH }}
+            npm install --omit=dev
+            mkdir -p tmp && touch tmp/restart.txt
