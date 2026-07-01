@@ -9,16 +9,21 @@ Your hosting plan doesn't expose SSH, so the workflow deploys over FTPS
 (FTP with TLS encryption) instead:
 
 1. GitHub Actions checks out the repo, runs `npm ci && npm run build`.
-2. `npm prune --omit=dev` strips devDependencies out of `node_modules`,
-   since there's no shell on the server to run `npm install` remotely —
-   the full production `node_modules` has to be shipped as part of the
-   upload.
-3. A `tmp/restart.txt` file is written with the current timestamp.
+   `next.config.mjs` has `output: "standalone"` set, which makes the
+   build trace only the files actually needed at runtime into
+   `.next/standalone/` — around 30MB / ~1,100 files, instead of the full
+   `node_modules` (450MB+ / 24,000+ files). This is what keeps the FTP
+   upload fast, since there's no shell on the server to run `npm install`
+   remotely — whatever gets shipped has to already be runnable as-is.
+   Static assets (`public/`, `.next/static/`) aren't part of that trace,
+   so they're copied into the standalone folder manually.
+2. A `tmp/restart.txt` file is written with the current timestamp.
    Passenger (cPanel's Node.js app manager) restarts the app whenever
    this file's contents change, so this is what triggers the restart.
-4. Everything (`.next/`, `public/`, `node_modules/`, `package.json`,
-   `server.js`, etc.) is uploaded over FTPS to the app directory. Only
-   changed files are re-uploaded on each run, so after the first deploy
+3. Only the contents of `.next/standalone/` are uploaded over FTPS to the
+   app directory — this includes its own auto-generated `server.js`,
+   which overwrites the one committed at the repo root. Only changed
+   files are re-uploaded on each run, so after the first deploy
    subsequent ones are much faster.
 
 ## One-time setup (do this once)
@@ -47,7 +52,7 @@ passwords in chat or anywhere else):
 
 | Secret | Value |
 |---|---|
-| `FTP_SERVER` | Your server hostname, e.g. `nova.hostseba.com` (also try `ftp.shakilhussain.dev`) |
+| `FTP_SERVER` | Your server hostname — confirmed as `nova.hostseba.com` |
 | `FTP_USERNAME` | The dedicated FTP account's username from step 1 |
 | `FTP_PASSWORD` | The dedicated FTP account's password |
 | `FTP_SERVER_DIR` | Remote path to upload into, e.g. `/home/shakilhu/portfolio/` |
@@ -68,7 +73,8 @@ long as the server and GitHub's runners are the same architecture
 cPanel hosts), but if you ever see native-module errors after a deploy,
 that mismatch is the likely cause — the fix at that point is asking
 hostseba to enable SSH access, then switching back to an SSH+rsync
-based workflow.
+based workflow (no longer need for standalone mode at that point, since
+`npm install` could run natively on the server again).
 
 ## Manual deploy (fallback)
 

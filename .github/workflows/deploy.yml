@@ -24,16 +24,17 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Remove dev-only dependencies
-        run: npm prune --omit=dev
-
-      - name: Mark app for restart
-        # Passenger (cPanel's Node.js app manager) restarts the app whenever
-        # this file's modified time changes. Content must differ each run
-        # so the FTP upload actually re-sends it.
+      - name: Assemble standalone bundle
+        # "output: standalone" (next.config.mjs) traces only the files Next
+        # actually needs at runtime into .next/standalone, instead of
+        # shipping the entire node_modules tree over FTP. Static assets
+        # aren't included in the trace, so they're copied in manually.
         run: |
-          mkdir -p tmp
-          date -u +"%Y-%m-%dT%H:%M:%SZ" > tmp/restart.txt
+          cp -r public .next/standalone/public
+          mkdir -p .next/standalone/.next
+          cp -r .next/static .next/standalone/.next/static
+          mkdir -p .next/standalone/tmp
+          date -u +"%Y-%m-%dT%H:%M:%SZ" > .next/standalone/tmp/restart.txt
 
       - name: Upload to server via FTPS
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -42,14 +43,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftps
-          local-dir: ./
+          local-dir: ./.next/standalone/
           server-dir: ${{ secrets.FTP_SERVER_DIR }}
           exclude: |
-            **/.git*
-            **/.git*/**
-            **/.github/**
-            **/.env*
-            **/*.md
-            **/Archive.zip
             **/.DS_Store
-            **/.next/cache/**
