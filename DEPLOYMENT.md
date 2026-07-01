@@ -1,82 +1,44 @@
-Deployment — cPanel Node.js App (automated via GitHub Actions)
+Deployment — cPanel Node.js App (manual zip upload)
 
-This repo deploys automatically to shakilhussain.dev on every push to `main`
-via `.github/workflows/deploy.yml`. No more manual zip/upload.
+This app runs on shakilhussain.dev via cPanel's "Setup Node.js App"
+(Passenger), with `server.js` as the startup file.
 
-## How it works
+## Deploying a new build
 
-Your hosting plan doesn't expose SSH, so the workflow deploys over FTPS
-(FTP with TLS encryption) instead:
+```bash
+npm run package
+```
 
-1. GitHub Actions checks out the repo, runs `npm ci && npm run build`.
-   `next.config.mjs` has `output: "standalone"` set, which makes the
-   build trace only the files actually needed at runtime into
-   `.next/standalone/` — around 30MB / ~1,100 files, instead of the full
-   `node_modules` (450MB+ / 24,000+ files). This is what keeps the FTP
-   upload fast, since there's no shell on the server to run `npm install`
-   remotely — whatever gets shipped has to already be runnable as-is.
-   Static assets (`public/`, `.next/static/`) aren't part of that trace,
-   so they're copied into the standalone folder manually.
-2. A `tmp/restart.txt` file is written with the current timestamp.
-   Passenger (cPanel's Node.js app manager) restarts the app whenever
-   this file's contents change, so this is what triggers the restart.
-3. Only the contents of `.next/standalone/` are uploaded over FTPS to the
-   app directory — this includes its own auto-generated `server.js`,
-   which overwrites the one committed at the repo root. Only changed
-   files are re-uploaded on each run, so after the first deploy
-   subsequent ones are much faster.
+This builds the app and produces `deploy.zip` at the project root —
+usually just a few MB, since it ships a traced, minimal `node_modules`
+(via Next.js `output: "standalone"` in `next.config.mjs`) instead of the
+full one. Then:
 
-## One-time setup (do this once)
+1. Log into cPanel → File Manager → navigate to the app folder
+   (e.g. `/home/shakilhu/portfolio`).
+2. Upload `deploy.zip`.
+3. Right-click it → Extract, overwrite existing files when prompted.
+4. Delete the uploaded `deploy.zip` afterward to save space (it's not
+   needed once extracted).
+5. cPanel → "Setup Node.js App" → find this app → click **Restart**.
+   (The zip also includes an updated `tmp/restart.txt`, which Passenger
+   picks up on its own shortly after extraction — clicking Restart just
+   makes it immediate.)
 
-### 1. Create a dedicated FTP account scoped to this folder
+## Why this stays small
 
-Don't use your main cPanel login for this. In cPanel → "FTP Accounts",
-create a new account with home directory locked to the app folder shown
-in your File Manager (e.g. `/home/shakilhu/portfolio`). This way, if the
-credential ever leaks, the blast radius is limited to that one folder.
+`output: "standalone"` traces only the files Next.js actually needs at
+runtime into `.next/standalone/`, which `npm run package` zips up. A full
+`node_modules` here is 450MB+ across 24,000+ files; the standalone
+bundle is a few MB across ~1,100 files — the difference between
+something you can upload in seconds versus minutes, and it avoids
+eating into your hosting plan's storage quota.
 
-Note the account's login (usually `ftpuser@shakilhussain.dev`) and
-password, and the directory path it's scoped to.
+## First-time cPanel setup (if the app doesn't exist yet)
 
-### 2. Confirm the app in cPanel → "Setup Node.js App"
-
-Startup file should be `server.js` (already in this repo). Note the
-**Application root** shown there — it should match the FTP account's
-directory from step 1.
-
-### 3. Add GitHub repository secrets
-
-In GitHub: Settings → Secrets and variables → Actions → New repository
-secret. Add these (paste values directly into GitHub's UI — never share
-passwords in chat or anywhere else):
-
-| Secret | Value |
-|---|---|
-| `FTP_SERVER` | Your server hostname — confirmed as `nova.hostseba.com` |
-| `FTP_USERNAME` | The dedicated FTP account's username from step 1 |
-| `FTP_PASSWORD` | The dedicated FTP account's password |
-| `FTP_SERVER_DIR` | Remote path to upload into, e.g. `/home/shakilhu/portfolio/` |
-
-### 4. Push to main
-
-That's it — every push to `main` now builds and deploys automatically.
-Check progress under the repo's "Actions" tab. The first run uploads
-everything (slow, node_modules included); later runs only send changed
-files.
-
-## Limitation vs. SSH-based deploy
-
-Without shell access, dependency installs happen in CI and are shipped
-as files rather than installed natively on the server. This works as
-long as the server and GitHub's runners are the same architecture
-(both are standard 64-bit Linux, which is true for the vast majority of
-cPanel hosts), but if you ever see native-module errors after a deploy,
-that mismatch is the likely cause — the fix at that point is asking
-hostseba to enable SSH access, then switching back to an SSH+rsync
-based workflow (no longer need for standalone mode at that point, since
-`npm install` could run natively on the server again).
-
-## Manual deploy (fallback)
-
-If you ever need to trigger a deploy without pushing new code, go to the
-"Actions" tab → "Deploy to cPanel" → "Run workflow".
+1. cPanel → "Setup Node.js App" → Create Application.
+2. Application root: the folder you'll extract `deploy.zip` into.
+3. Application startup file: `server.js`.
+4. Application URL: shakilhussain.dev.
+5. Run `npm run package` locally, upload and extract as above, then
+   Start the app from that same cPanel page.
