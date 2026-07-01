@@ -5,57 +5,70 @@ via `.github/workflows/deploy.yml`. No more manual zip/upload.
 
 ## How it works
 
+Your hosting plan doesn't expose SSH, so the workflow deploys over FTPS
+(FTP with TLS encryption) instead:
+
 1. GitHub Actions checks out the repo, runs `npm ci && npm run build`.
-2. The build output (`.next/`, `public/`, `package.json`, `server.js`, etc.)
-   is rsynced over SSH to the app directory on the server.
-   `node_modules/` is excluded — it's reinstalled on the server so native
-   dependencies match the server's architecture.
-3. Over the same SSH connection, the workflow activates the app's Node
-   virtual environment, runs `npm install --omit=dev`, and touches
-   `tmp/restart.txt` so Passenger (cPanel's Node.js app manager) restarts
-   the app with the new code.
+2. `npm prune --omit=dev` strips devDependencies out of `node_modules`,
+   since there's no shell on the server to run `npm install` remotely —
+   the full production `node_modules` has to be shipped as part of the
+   upload.
+3. A `tmp/restart.txt` file is written with the current timestamp.
+   Passenger (cPanel's Node.js app manager) restarts the app whenever
+   this file's contents change, so this is what triggers the restart.
+4. Everything (`.next/`, `public/`, `node_modules/`, `package.json`,
+   `server.js`, etc.) is uploaded over FTPS to the app directory. Only
+   changed files are re-uploaded on each run, so after the first deploy
+   subsequent ones are much faster.
 
 ## One-time setup (do this once)
 
-### 1. Confirm the app exists in cPanel → "Setup Node.js App"
+### 1. Create a dedicated FTP account scoped to this folder
 
-You should already have an app pointed at shakilhussain.dev with
-`server.js` as the startup file (this is why that file exists in the repo).
-Open that app's page in cPanel and copy two things:
+Don't use your main cPanel login for this. In cPanel → "FTP Accounts",
+create a new account with home directory locked to the app folder shown
+in your File Manager (e.g. `/home/shakilhu/portfolio`). This way, if the
+credential ever leaks, the blast radius is limited to that one folder.
 
-- **Application root** — absolute path, e.g. `/home/username/nodeapp`
-- **Enter to the virtual environment** command — a `source .../bin/activate`
-  line shown on that page.
+Note the account's login (usually `ftpuser@shakilhussain.dev`) and
+password, and the directory path it's scoped to.
 
-### 2. Generate a dedicated deploy SSH key (on your own machine, not in chat)
+### 2. Confirm the app in cPanel → "Setup Node.js App"
 
-```bash
-ssh-keygen -t ed25519 -f ~/.ssh/cpanel_deploy -C "github-actions-deploy" -N ""
-```
-
-Add the **public** key (`cpanel_deploy.pub`) to the server: cPanel →
-"SSH Access" → "Manage SSH Keys" → Import Key, then Authorize it.
+Startup file should be `server.js` (already in this repo). Note the
+**Application root** shown there — it should match the FTP account's
+directory from step 1.
 
 ### 3. Add GitHub repository secrets
 
 In GitHub: Settings → Secrets and variables → Actions → New repository
 secret. Add these (paste values directly into GitHub's UI — never share
-the private key in chat or anywhere else):
+passwords in chat or anywhere else):
 
 | Secret | Value |
 |---|---|
-| `CPANEL_SSH_HOST` | Your server hostname or IP |
-| `CPANEL_SSH_PORT` | SSH port (often `22`, sometimes a custom port like `21098`) |
-| `CPANEL_SSH_USERNAME` | Your cPanel username |
-| `CPANEL_SSH_KEY` | Contents of the **private** key file (`cat ~/.ssh/cpanel_deploy`) |
-| `CPANEL_APP_PATH` | Application root from step 1, e.g. `/home/username/nodeapp` |
-| `CPANEL_NODE_VENV_ACTIVATE` | Full path to the venv's `activate` script, e.g. `/home/username/nodevenv/nodeapp/20/bin/activate` |
+| `FTP_SERVER` | Your server hostname, e.g. `nova.hostseba.com` (also try `ftp.shakilhussain.dev`) |
+| `FTP_USERNAME` | The dedicated FTP account's username from step 1 |
+| `FTP_PASSWORD` | The dedicated FTP account's password |
+| `FTP_SERVER_DIR` | Remote path to upload into, e.g. `/home/shakilhu/portfolio/` |
 
 ### 4. Push to main
 
 That's it — every push to `main` now builds and deploys automatically.
-Check progress under the repo's "Actions" tab. If a deploy fails, the
-logs will show which step (rsync or SSH restart) failed.
+Check progress under the repo's "Actions" tab. The first run uploads
+everything (slow, node_modules included); later runs only send changed
+files.
+
+## Limitation vs. SSH-based deploy
+
+Without shell access, dependency installs happen in CI and are shipped
+as files rather than installed natively on the server. This works as
+long as the server and GitHub's runners are the same architecture
+(both are standard 64-bit Linux, which is true for the vast majority of
+cPanel hosts), but if you ever see native-module errors after a deploy,
+that mismatch is the likely cause — the fix at that point is asking
+hostseba to enable SSH access, then switching back to an SSH+rsync
+based workflow.
 
 ## Manual deploy (fallback)
 

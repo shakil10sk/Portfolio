@@ -24,31 +24,32 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Upload build to server
-        uses: burnett01/rsync-deployments@7.0.1
-        with:
-          switches: -avzr --delete
-          # Only ship what the server needs to run; node_modules is
-          # reinstalled on the server so native deps match its architecture.
-          exclude: >-
-            .git/ .github/ node_modules/ .next/cache/
-            *.md Archive.zip .env* .DS_Store
-          path: ./
-          remote_path: ${{ secrets.CPANEL_APP_PATH }}
-          remote_host: ${{ secrets.CPANEL_SSH_HOST }}
-          remote_port: ${{ secrets.CPANEL_SSH_PORT }}
-          remote_user: ${{ secrets.CPANEL_SSH_USERNAME }}
-          remote_key: ${{ secrets.CPANEL_SSH_KEY }}
+      - name: Remove dev-only dependencies
+        run: npm prune --omit=dev
 
-      - name: Install prod deps and restart app
-        uses: appleboy/ssh-action@v1.0.3
+      - name: Mark app for restart
+        # Passenger (cPanel's Node.js app manager) restarts the app whenever
+        # this file's modified time changes. Content must differ each run
+        # so the FTP upload actually re-sends it.
+        run: |
+          mkdir -p tmp
+          date -u +"%Y-%m-%dT%H:%M:%SZ" > tmp/restart.txt
+
+      - name: Upload to server via FTPS
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          host: ${{ secrets.CPANEL_SSH_HOST }}
-          port: ${{ secrets.CPANEL_SSH_PORT }}
-          username: ${{ secrets.CPANEL_SSH_USERNAME }}
-          key: ${{ secrets.CPANEL_SSH_KEY }}
-          script: |
-            source ${{ secrets.CPANEL_NODE_VENV_ACTIVATE }}
-            cd ${{ secrets.CPANEL_APP_PATH }}
-            npm install --omit=dev
-            mkdir -p tmp && touch tmp/restart.txt
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          local-dir: ./
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.github/**
+            **/.env*
+            **/*.md
+            **/Archive.zip
+            **/.DS_Store
+            **/.next/cache/**
