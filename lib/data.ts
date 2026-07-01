@@ -481,5 +481,5 @@ export const contactItems = [
   { label: "Phone", value: profile.phone, href: `tel:${profile.phone.replace(/\s|-/g, "")}`, icon: Phone },
   { label: "Location", value: profile.location, href: undefined, icon: MapPin },
   { label: "GitHub", value: "shakil10sk", href: profile.github, icon: Github },
-  { label: "Website", value: "shakil.dev", href: "#", icon: Globe },
+  { label: "Website", value: "shakilhussain.dev", href: "#", icon: Globe },
 ];

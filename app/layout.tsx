@@ -25,7 +25,7 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://shakil.dev"),
+  metadataBase: new URL("https://shakilhussain.dev"),
   title: {
     default: `${profile.name} — ${profile.role}`,
     template: `%s · ${profile.name}`,
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://shakil.dev",
+    url: "https://shakilhussain.dev",
     siteName: profile.name,
     title: `${profile.name} — ${profile.role}`,
     description: profile.bio,
