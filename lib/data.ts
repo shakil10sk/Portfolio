@@ -40,7 +40,7 @@ export const profile = {
   linkedin: "https://www.linkedin.com/in/shakil-hussain-h039/",
   facebook: "https://www.facebook.com/profile.php?id=100064089729699",
   whatsapp: "https://wa.me/8801636639790",
-  resumeUrl: "/cv/One_page_cv_shakil-compressed.pdf",
+  resumeUrl: "/cv/Md_Shakil_Hussain_CV.pdf",
   availability: "Open to full-time, on-site, remote, hybrid & relocation roles",
   // ── IMAGE SLOTS ────────────────────────────────────────────────────────
   // Set these paths once you've dropped files into /public/images/.
