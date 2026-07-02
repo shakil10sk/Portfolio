@@ -11,7 +11,7 @@ export function Experience() {
       <div className="container">
         <SectionHeading
           eyebrow="Experience"
-          title="Four years building for real users."
+          title="Five years building for real users."
           description="Government platforms, fintech products, and high-traffic web apps — here's where I've worked and what I've shipped."
           align="center"
         />
