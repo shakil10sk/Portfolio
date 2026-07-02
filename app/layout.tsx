@@ -26,7 +26,7 @@ const mono = JetBrains_Mono({
 });
 
 const seoDescription =
-  "Md Shakil Hussain — Full-Stack Software Engineer building Laravel/Node.js backends, React/Vue frontends, and production AI agents with Claude, LangChain, LangGraph, RAG and vector DBs. Based in Dhaka, remote-first.";
+  "Md Shakil Hussain — Full-Stack Software Engineer building Laravel/Node.js backends, React/Vue frontends, and production AI agents with Claude, LangChain, LangGraph, RAG and vector DBs. Based in Dhaka, open to on-site, remote, hybrid and relocation roles.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://shakilhussain.dev"),

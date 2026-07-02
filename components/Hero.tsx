@@ -147,7 +147,7 @@ export function Hero() {
                 <div className="mt-6 grid grid-cols-3 gap-2 rounded-2xl bg-zinc-50 dark:bg-zinc-900/60 p-3 ring-1 ring-zinc-200 dark:ring-zinc-800">
                   <Mini label="Stack" value="Laravel | Node | Vue | React" />
                   <Mini label="Focus" value="Backend + AI" />
-                  <Mini label="Mode" value="Remote" />
+                  <Mini label="Mode" value="Flexible" />
                 </div>
 
                 <div className="mt-5 flex items-center gap-2">

@@ -41,7 +41,7 @@ export const profile = {
   facebook: "https://www.facebook.com/profile.php?id=100064089729699",
   whatsapp: "https://wa.me/8801636639790",
   resumeUrl: "/cv/One_page_cv_shakil-compressed.pdf",
-  availability: "Open to remote AI, backend & full-stack roles",
+  availability: "Open to full-time, on-site, remote, hybrid & relocation roles",
   // ── IMAGE SLOTS ────────────────────────────────────────────────────────
   // Set these paths once you've dropped files into /public/images/.
   // While `undefined`, the UI shows beautiful generated placeholders.
