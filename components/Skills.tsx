@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Marquee } from "@/components/ui/Marquee";
-import { skillGroups, flatSkills } from "@/lib/data";
+import { skillGroups, techStack } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
 export function Skills() {
@@ -87,7 +87,7 @@ export function Skills() {
               <span className="h-2 w-2 rounded-full bg-emerald-400/70" />
             </div>
           </div>
-          <Marquee items={flatSkills} />
+          <Marquee items={techStack} />
         </div>
       </div>
 

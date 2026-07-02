@@ -21,6 +21,9 @@ import {
   Bot,
   Boxes,
   MessageCircle,
+  Component,
+  Workflow,
+  SearchCode,
 } from "lucide-react";
 
 export const profile = {
@@ -50,10 +53,10 @@ export const profile = {
 };
 
 export const heroBadges = [
-  { label: "Laravel", x: "-8%", y: "8%", delay: 0 },
-  { label: "Node.js", x: "92%", y: "14%", delay: 0.3 },
-  { label: "PostgreSQL", x: "-12%", y: "62%", delay: 0.6 },
-  { label: "LangChain", x: "94%", y: "70%", delay: 0.9 },
+  { label: "Laravel", x: "-6%", y: "8%", delay: 0 },
+  { label: "Node.js", x: "84%", y: "14%", delay: 0.3 },
+  { label: "React", x: "-8%", y: "62%", delay: 0.6 },
+  { label: "Vue.js", x: "84%", y: "70%", delay: 0.9 },
 ];
 
 export const stats = [
@@ -157,37 +160,56 @@ export const skillGroups: SkillGroup[] = [
   },
 ];
 
-export const flatSkills = [
-  "React",
-  "Next.js",
-  "TypeScript",
-  "Vue 3",
-  "Nuxt.js",
-  "Redux",
-  "Zustand",
-  "Context API",
-  "Tailwind CSS",
-  "Framer Motion",
-  "Node.js",
-  "NestJS",
-  "Laravel",
-  "PostgreSQL",
-  "Docker",
-  "AWS",
-  "Redis",
-  "Kubernetes",
-  "Claude Code",
-  "LangChain",
-  "LangGraph",
-  "RAG",
-  "AI Agents",
-  "n8n",
+// Logo source: Simple Icons CDN (https://cdn.simpleicons.org/{slug}) returns the
+// official brand SVG. Tools without a registered brand mark fall back to a
+// Lucide icon instead.
+export type TechItem = {
+  name: string;
+  /** Simple Icons slug — renders the real brand logo. */
+  slug?: string;
+  /** Lucide fallback icon for tools with no brand mark on Simple Icons. */
+  icon?: LucideIcon;
+};
+
+export const techStack: TechItem[] = [
+  { name: "React", slug: "react" },
+  { name: "Next.js", slug: "nextdotjs" },
+  { name: "TypeScript", slug: "typescript" },
+  { name: "Vue 3", slug: "vuedotjs" },
+  { name: "Nuxt.js", slug: "nuxt" },
+  { name: "Redux", slug: "redux" },
+  { name: "Zustand", icon: Boxes },
+  { name: "Context API", icon: Component },
+  { name: "Tailwind CSS", slug: "tailwindcss" },
+  { name: "Framer Motion", slug: "framer" },
+  { name: "Node.js", slug: "nodedotjs" },
+  { name: "NestJS", slug: "nestjs" },
+  { name: "Laravel", slug: "laravel" },
+  { name: "PostgreSQL", slug: "postgresql" },
+  { name: "Docker", slug: "docker" },
+  { name: "AWS", icon: Cloud },
+  { name: "Redis", slug: "redis" },
+  { name: "Kubernetes", slug: "kubernetes" },
+  { name: "Claude Code", slug: "claude" },
+  { name: "LangChain", slug: "langchain" },
+  { name: "LangGraph", icon: Workflow },
+  { name: "RAG", icon: SearchCode },
+  { name: "AI Agents", icon: Bot },
+  { name: "n8n", slug: "n8n" },
 ];
 
+/** Plain-text names, kept for any consumer that only needs labels. */
+export const flatSkills = techStack.map((item) => item.name);
+
 export type Project = {
+  slug: string;
   title: string;
   summary: string;
   description: string;
+  /** The problem or gap this project was built to solve. */
+  problem: string;
+  /** The approach taken and what was built to solve it. */
+  solution: string;
   stack: string[];
   highlights: string[];
   icon: LucideIcon;
@@ -210,11 +232,16 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "luminerp-deshipos",
     title: "LuminERP — DeshiPOS",
     category: "ERP",
     summary: "All-in-one POS & ERP platform for retail, supershops and restaurants.",
     description:
       "A complete multi-branch ERP and point-of-sale platform — sales, inventory, accounting, and customer & staff management in one system. My latest fully-owned build: designed and shipped end-to-end solo, from database schema to production deployment, directing Claude Code daily to accelerate delivery.",
+    problem:
+      "Small and mid-size retailers, supershops and restaurants were stitching together spreadsheets and standalone billing apps — no single system tied sales, inventory, accounting and staff management together, and existing POS tools were either too costly or not built for multi-branch operations.",
+    solution:
+      "Designed and shipped LuminERP (DeshiPOS) solo, end-to-end — from database schema to production deployment — as a unified multi-branch ERP and POS platform built with Laravel and Vue.js on a MySQL/Redis backend, directing Claude Code daily to accelerate delivery while keeping full ownership of architecture and decisions.",
     stack: ["Laravel", "Vue.js", "MySQL", "Redis", "Claude Code"],
     highlights: [
       "Multi-branch inventory & stock management",
@@ -228,11 +255,16 @@ export const projects: Project[] = [
     link: "https://deshipos.com/",
   },
   {
+    slug: "voice-nimble",
     title: "Voice Nimble — AI Voice Agents",
     category: "Internal Tool",
     summary: "AI voice calling agents for customer qualification and support.",
     description:
       "A SaaS product providing AI voice agents that answer, qualify and convert customer calls 24/7. Built the agent's reasoning and knowledge layer with Claude, RAG and LangGraph-orchestrated conversation flows, plus the customer-facing frontend and telephony integration.",
+    problem:
+      "Businesses lose leads and support tickets outside working hours because human agents can't answer every call around the clock, and generic IVR systems can't hold a real conversation or pull live context.",
+    solution:
+      "Built the reasoning and knowledge layer of an AI voice agent SaaS using Claude, a RAG pipeline over a vector DB for real-time call context, and LangGraph-orchestrated conversation flows for multi-step qualification and escalation — connected to live telephony and n8n workflows that auto-sync qualified leads into the CRM, plus the customer-facing frontend.",
     stack: ["Claude API", "LangChain", "LangGraph", "RAG", "Vector DB", "n8n", "Node.js", "Vue.js"],
     highlights: [
       "RAG pipeline + vector DB for real-time call context retrieval",
@@ -248,11 +280,16 @@ export const projects: Project[] = [
     link: "https://voicenimble.com/",
   },
   {
+    slug: "overwatch-agrovue",
     title: "Overwatch — Land Monitoring Platform",
     category: "Internal Tool",
     summary: "Satellite-data land monitoring and tender management for agriculture.",
     description:
       "A land monitoring and tender management platform built solo as backend engineer. Users create tenders against one or more land parcels; for each parcel the system pulls Google Earth Engine (GEE) satellite data and analyzes 5 years of historical imagery to generate reports on monthly land condition and which crops are viable to grow.",
+    problem:
+      "Agricultural land buyers and tender managers had no reliable way to verify a parcel's real condition or crop viability before committing capital — ground surveys are slow, expensive and don't cover history.",
+    solution:
+      "Built the backend solo for a platform where users raise tenders against one or more land parcels, then pull Google Earth Engine satellite imagery and analyze 5 years of historical data per parcel to auto-generate monthly land-condition and crop-viability reports.",
     stack: ["Node.js", "Google Earth Engine", "React", "TypeScript", "Tailwind"],
     highlights: [
       "Tender creation across multiple land parcels",
@@ -266,11 +303,16 @@ export const projects: Project[] = [
     link: "https://overwatch.agrovue.io/",
   },
   {
+    slug: "land-mutation",
     title: "Ministry of Land — Mutation",
     category: "Government",
     summary: "Digital land mutation for citizens nationwide.",
     description:
       "Digitized the land mutation process for the Ministry of Land. Integrated payment gateways, queue workers and a multi-step citizen-facing UI that works on low-end devices.",
+    problem:
+      "Citizens across Bangladesh had to physically visit land offices and navigate a paper-based mutation process to transfer land ownership — slow, opaque, and inaccessible for people outside major cities.",
+    solution:
+      "Digitized the entire mutation workflow into a multi-step citizen-facing application that works on low-end devices, integrated Bkash and Sheba Pay for online fee payment, and built background queue workers to process applications reliably at national scale.",
     stack: ["Laravel", "Vue 3", "MySQL", "Docker", "Redis"],
     highlights: [
       "Multi-step citizen application flow",
@@ -284,11 +326,16 @@ export const projects: Project[] = [
     link: "https://mutation.land.gov.bd/",
   },
   {
+    slug: "sheba-platform",
     title: "Sheba Platform — 3-Tier Ecosystem",
     category: "Fintech",
     summary: "Customer, admin and partner apps for a service marketplace.",
     description:
       "Delivered features across Sheba's customer app, admin and partner portal. Migrated legacy Laravel 5.2 modules to Laravel 10 and built modular Nuxt.js front-end components shared across surfaces.",
+    problem:
+      "Sheba's customer, admin and partner surfaces ran on aging Laravel 5.2 modules that were slow to extend, suffered N+1 query performance issues, and duplicated UI logic across teams.",
+    solution:
+      "Migrated legacy modules from Laravel 5.2 to Laravel 10 with zero downtime, resolved N+1 queries and added Redis caching to cut response times, and built shared modular Nuxt.js components so customer, admin and partner surfaces could reuse the same front-end building blocks.",
     stack: ["Nuxt.js", "Vue 3", "Laravel 10", "Redis", "AWS", "K8s"],
     highlights: [
       "Migrated Laravel 5.2 → 10 with zero downtime",
@@ -302,11 +349,16 @@ export const projects: Project[] = [
     link: "https://sheba.xyz",
   },
   {
+    slug: "marketing-olympiad",
     title: "Marketing Olympiad",
     category: "Internal Tool",
     summary: "Multi-round timed competition platform.",
     description:
       "Built a multi-round competition platform with time-based scoring, live leaderboards and admin controls for round management.",
+    problem:
+      "The organizing team needed to run a multi-round, time-boxed competition for hundreds of participants with live scoring — spreadsheets and manual tallying couldn't keep up in real time.",
+    solution:
+      "Built a round-based competition platform with a time-based scoring engine, live leaderboard updates and admin tooling for managing question banks and round progression.",
     stack: ["Laravel", "MySQL", "jQuery", "Tailwind"],
     highlights: [
       "Round-based scoring engine",
@@ -320,11 +372,16 @@ export const projects: Project[] = [
     link: "https://marketingolympiad.com/",
   },
   {
+    slug: "amarparcel-delivery",
     title: "AmarParcel Delivery",
     category: "E-commerce",
     summary: "Foodpanda-style delivery & live tracking system.",
     description:
       "End-to-end delivery and tracking system: customer ordering, dispatcher assignment and live status updates. Designed responsive UIs and a dispatcher-facing operations console.",
+    problem:
+      "The business needed a Foodpanda-style delivery experience — customers placing orders, dispatchers assigning riders, everyone tracking status live — without paying for a third-party logistics platform.",
+    solution:
+      "Built an end-to-end delivery and tracking system: a mobile-first customer ordering flow, a dispatcher operations console for assigning and monitoring riders, and live order-status updates throughout.",
     stack: ["Laravel", "jQuery", "MySQL", "Bootstrap"],
     highlights: [
       "Live order status tracking",
@@ -337,11 +394,16 @@ export const projects: Project[] = [
     image: "/images/projects/amarparcel.png",
   },
   {
+    slug: "rajuk-epms",
     title: "RAJUK EPMS",
     category: "Government",
     summary: "Electronic plan management for the capital development authority.",
     description:
       "A high-traffic government platform serving millions of citizens for plan submission, review and approval. Built modular Vue 3 + Vuex front-ends and integrated fingerprint-based authentication for secure case handling.",
+    problem:
+      "RAJUK's plan submission and approval process for millions of citizens ran through manual, paper-heavy review — slow turnaround, no audit trail, and no secure way to verify which officer handled which case.",
+    solution:
+      "Built modular Vue 3 + Vuex front-ends for a high-traffic government platform handling plan submission, review and approval, and integrated fingerprint-based authentication so officer actions on sensitive cases are securely verified and auditable. Optimized list views for large datasets and shipped role-based dashboards for 6+ user types.",
     stack: ["Vue 3", "Vuex", "Tailwind", "Laravel", "Nginx"],
     highlights: [
       "Fingerprint authentication for officers",
@@ -360,11 +422,16 @@ export const projects: Project[] = [
     // ],
   },
   {
+    slug: "btrc-lims",
     title: "BTRC LIMS",
     category: "Government",
     summary: "License & inspection management for the telecom regulator.",
     description:
       "A regulator-grade licensing system replacing legacy workflows. Implemented complex workflow engines, dynamic forms, and reporting dashboards with strong audit trails.",
+    problem:
+      "BTRC's telecom licensing process relied on legacy, hard-to-extend workflows with no strong audit trail — dynamic license types and inspection rules were difficult to model in the old system.",
+    solution:
+      "Implemented a regulator-grade licensing system with a configurable workflow engine, dynamic forms for varied license types, real-time notifications via RabbitMQ, and PDF report generation with full audit logs.",
     stack: ["Vue 3", "NestJS", "PostgreSQL", "Docker", "RabbitMQ"],
     highlights: [
       "End-to-end licensing workflow engine",
@@ -378,11 +445,16 @@ export const projects: Project[] = [
     link: "https://lims.btrc.gov.bd/",
   },
   {
+    slug: "pharmacy-pos",
     title: "Pharmacy POS",
     category: "E-commerce",
     summary: "Point of sale with inventory & reporting.",
     description:
       "A complete pharmacy point-of-sale system: inventory management, barcode billing, batch & expiry tracking, and sales reporting for store owners.",
+    problem:
+      "Independent pharmacy owners were tracking inventory, batch/expiry dates and sales manually, risking stock-outs, expired-stock sales and no visibility into daily performance.",
+    solution:
+      "Built a complete point-of-sale system with barcode-based billing, batch & expiry inventory tracking, and daily/monthly sales reporting so owners could run the counter and the back office from one tool.",
     stack: ["Laravel", "MySQL", "Tailwind", "Chart.js"],
     highlights: [
       "Barcode-based billing flow",
@@ -395,11 +467,16 @@ export const projects: Project[] = [
     // image: "/images/projects/pharmacy.jpg",
   },
   {
+    slug: "ecommerce-storefronts",
     title: "E-commerce Storefronts",
     category: "E-commerce",
     summary: "Mockup-to-production storefronts with payments.",
     description:
       "Converted design mockups into responsive storefronts with checkout flows, payment gateway integration and basic SEO — deployed to live servers.",
+    problem:
+      "Clients had design mockups for their online stores but no working storefront — they needed pixel-accurate builds with real checkout and payment, not just a template.",
+    solution:
+      "Converted design mockups into responsive, production storefronts with working checkout flows, payment gateway integration and basic SEO, then deployed and maintained them on live servers.",
     stack: ["PHP", "Laravel", "jQuery", "Bootstrap"],
     highlights: [
       "Pixel-accurate mockup conversion",
@@ -504,39 +581,44 @@ export type Testimonial = {
   author: string;
   role: string;
   company: string;
+  photo?: string;
+  linkedin?: string;
 };
 
 export const testimonials: Testimonial[] = [
   {
     quote:
       "Shakil consistently ships clean, well-tested code. His instinct for performance — especially around N+1 queries and caching — saved us countless hours.",
-    author: "Tech Lead",
-    role: "Engineering Manager",
-    company: "Sheba Platform",
+    author: "Jabed Hasan",
+    role: "Lead Software Engineer",
+    company: "Sheba Platform Ltd",
+    linkedin: "https://www.linkedin.com/in/jabed-hasan-9a59a960/",
   },
   {
     quote:
       "He moves fast across the stack. We handed him a legacy Laravel module and got back something modular, documented and production-ready.",
-    author: "Senior Engineer",
-    role: "Backend Lead",
-    company: "Business Automation Ltd",
+    author: "Md Kamruzzaman, PMP®",
+    role: "Technical Lead & e-Governance Specialist",
+    company: "National Digital Transformation (Hajj, Mutation, BTRC-LIMS, RAJUK-EPMS)",
+    photo: "/images/testimonials/kamruzzaman-hasan.jpeg",
+    linkedin: "https://www.linkedin.com/in/zaman786/",
   },
   {
     quote:
       "A reliable engineer who takes ownership of features end-to-end — from gathering requirements to deploying on AWS.",
-    author: "Project Manager",
-    role: "Delivery Lead",
-    company: "Government Project",
+    author: "Md. Ashav Noman Mahin",
+    role: "Technical Project Manager",
+    company: "Luminous Labs",
   },
 ];
 
 export const navLinks = [
-  { label: "About", href: "#about" },
-  { label: "Skills", href: "#skills" },
-  { label: "Projects", href: "#projects" },
-  { label: "Experience", href: "#experience" },
-  { label: "Testimonials", href: "#testimonials" },
-  { label: "Contact", href: "#contact" },
+  { label: "About", href: "/#about" },
+  { label: "Skills", href: "/#skills" },
+  { label: "Projects", href: "/#projects" },
+  { label: "Experience", href: "/#experience" },
+  { label: "Testimonials", href: "/#testimonials" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export const socials = [

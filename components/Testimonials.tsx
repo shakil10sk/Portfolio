@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Quote } from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { Avatar } from "@/components/ui/Avatar";
 import { testimonials } from "@/lib/data";
 
 export function Testimonials() {
@@ -30,13 +31,27 @@ export function Testimonials() {
               <blockquote className="mt-4 flex-1 text-sm sm:text-[15px] text-zinc-700 dark:text-zinc-300 leading-relaxed">
                 "{t.quote}"
               </blockquote>
-              <figcaption className="mt-6 pt-4 border-t border-zinc-200 dark:border-zinc-800">
-                <p className="font-display font-semibold text-sm text-zinc-900 dark:text-zinc-100">
-                  {t.author}
-                </p>
-                <p className="text-xs text-zinc-500">
-                  {t.role} · {t.company}
-                </p>
+              <figcaption className="mt-6 flex items-center gap-3 pt-4 border-t border-zinc-200 dark:border-zinc-800">
+                <Avatar src={t.photo} name={t.author} size={44} />
+                <div className="min-w-0">
+                  {t.linkedin ? (
+                    <a
+                      href={t.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-display font-semibold text-sm text-zinc-900 dark:text-zinc-100 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                    >
+                      {t.author}
+                    </a>
+                  ) : (
+                    <p className="font-display font-semibold text-sm text-zinc-900 dark:text-zinc-100">
+                      {t.author}
+                    </p>
+                  )}
+                  <p className="truncate text-xs text-zinc-500">
+                    {t.role} · {t.company}
+                  </p>
+                </div>
               </figcaption>
             </motion.figure>
           ))}

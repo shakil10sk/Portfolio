@@ -22,7 +22,7 @@ export function Navbar() {
 
   React.useEffect(() => {
     const sections = navLinks
-      .map((l) => document.querySelector(l.href))
+      .map((l) => document.getElementById(l.href.split("#")[1]))
       .filter(Boolean) as Element[];
     if (!sections.length) return;
     const observer = new IntersectionObserver(
@@ -63,7 +63,7 @@ export function Navbar() {
 
         <nav className="hidden md:flex items-center gap-1 surface-muted rounded-full px-1.5 py-1.5">
           {navLinks.map((link) => {
-            const isActive = active === link.href;
+            const isActive = active === `#${link.href.split("#")[1]}`;
             return (
               <Link
                 key={link.href}
@@ -90,13 +90,15 @@ export function Navbar() {
 
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          <Link
-            href="#contact"
+          <a
+            href={profile.whatsapp}
+            target="_blank"
+            rel="noreferrer"
             className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-zinc-900 dark:bg-white px-4 py-2 text-sm font-medium text-white dark:text-zinc-900 hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors"
           >
             Let's talk
             <ArrowUpRight className="h-3.5 w-3.5" />
-          </Link>
+          </a>
           <button
             type="button"
             className="md:hidden inline-flex h-9 w-9 items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300"

@@ -16,13 +16,13 @@ import {
 } from "lucide-react";
 import { Avatar } from "@/components/ui/Avatar";
 import { Marquee } from "@/components/ui/Marquee";
-import { profile, flatSkills, heroBadges, stats } from "@/lib/data";
+import { profile, techStack, heroBadges, stats } from "@/lib/data";
 
 export function Hero() {
   return (
     <section
       id="home"
-      className="relative overflow-hidden pt-32 pb-20 sm:pt-40 sm:pb-24"
+      className="relative overflow-hidden pt-24 pb-16 sm:pt-28 sm:pb-20"
     >
       {/* Mesh background */}
       <div aria-hidden className="absolute inset-0 -z-10">
@@ -63,7 +63,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.15 }}
-              className="mt-7 max-w-xl text-base sm:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed"
+              className="mt-5 max-w-xl text-base sm:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed"
             >
               I'm <span className="font-medium text-zinc-900 dark:text-zinc-100">{profile.name}</span> — a {profile.role.toLowerCase()} based in {profile.location}. I design and build robust backend systems with Laravel and Node.js, deliver production-ready frontends with React, Next.js and Vue, and build AI agents with Claude, LangChain/LangGraph and RAG pipelines.
             </motion.p>
@@ -72,10 +72,10 @@ export function Hero() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.22 }}
-              className="mt-9 flex flex-col sm:flex-row items-stretch sm:items-center gap-3"
+              className="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center gap-3"
             >
               <Link
-                href="#projects"
+                href="/#projects"
                 className="group inline-flex items-center justify-center gap-2 rounded-full bg-zinc-900 dark:bg-white px-6 py-3.5 text-sm font-medium text-white dark:text-zinc-900 shadow-xl shadow-indigo-500/20 hover:shadow-indigo-500/30 transition-all hover:scale-[1.02]"
               >
                 Explore my work
@@ -90,7 +90,7 @@ export function Hero() {
                 Download CV
               </Link>
               <Link
-                href="#contact"
+                href="/#contact"
                 className="group inline-flex items-center justify-center gap-2 rounded-full px-2 py-3.5 text-sm font-medium text-zinc-700 dark:text-zinc-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
               >
                 or say hi
@@ -103,7 +103,7 @@ export function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.35 }}
-              className="mt-12 grid grid-cols-3 max-w-md gap-6 border-t border-zinc-200 dark:border-zinc-800 pt-6"
+              className="mt-8 grid grid-cols-3 max-w-md gap-6 border-t border-zinc-200 dark:border-zinc-800 pt-5"
             >
               <Stat label="Years" value={stats[0].value} />
               <Stat label="Projects" value={stats[1].value} />
@@ -225,7 +225,7 @@ export function Hero() {
 
       {/* Marquee */}
       <div className="mt-20 sm:mt-24 border-y border-zinc-200/60 dark:border-zinc-800/60 bg-white/40 dark:bg-zinc-900/30 backdrop-blur-sm">
-        <Marquee items={flatSkills} />
+        <Marquee items={techStack} />
       </div>
     </section>
   );
