@@ -24,6 +24,7 @@ import {
   Component,
   Workflow,
   SearchCode,
+  Facebook,
 } from "lucide-react";
 
 export const profile = {
@@ -31,12 +32,13 @@ export const profile = {
   shortName: "ShakilHussain",
   role: "Full-Stack Engineer & AI Agent Developer",
   tagline: "Backend-focused full-stack engineer building production AI agents, ERP platforms and secure systems.",
-  bio: "Full-Stack Software Engineer with 4+ years building scalable enterprise systems, government platforms and AI-native products. Deep backend experience with Laravel and Node.js, production-ready frontends with React, Next.js and Vue, and hands-on work building LLM-powered AI agents with Claude, LangChain/LangGraph and RAG pipelines — backed by strong DevOps and API design practices.",
+  bio: "Full-Stack Software Engineer with 5+ years building scalable enterprise systems, government platforms and AI-native products. Deep backend experience with Laravel and Node.js, production-ready frontends with React, Next.js and Vue, and hands-on work building LLM-powered AI agents with Claude, LangChain/LangGraph and RAG pipelines — backed by strong DevOps and API design practices.",
   location: "Dhaka, Bangladesh",
   email: "shakilh039@gmail.com",
   phone: "+8801636-639790",
   github: "https://github.com/shakil10sk",
   linkedin: "https://www.linkedin.com/in/shakil-hussain-h039/",
+  facebook: "https://www.facebook.com/profile.php?id=100064089729699",
   whatsapp: "https://wa.me/8801636639790",
   resumeUrl: "/cv/One_page_cv_shakil-compressed.pdf",
   availability: "Open to remote AI, backend & full-stack roles",
@@ -60,7 +62,7 @@ export const heroBadges = [
 ];
 
 export const stats = [
-  { label: "Years of experience", value: "4+" },
+  { label: "Years of experience", value: "5+" },
   { label: "Production projects", value: "20+" },
   { label: "Companies", value: "4" },
   { label: "Users served", value: "Millions" },
@@ -592,7 +594,17 @@ export const testimonials: Testimonial[] = [
     author: "Jabed Hasan",
     role: "Lead Software Engineer",
     company: "Sheba Platform Ltd",
+    photo: "/images/testimonials/jabed-hasan.png",
     linkedin: "https://www.linkedin.com/in/jabed-hasan-9a59a960/",
+  },
+  {
+    quote:
+      "Shakil translates product requirements into working software fast, and communicates trade-offs clearly enough that planning around his estimates is easy.",
+    author: "Imtiaz Mahboob",
+    role: "Product Manager",
+    company: "Sheba Platform Ltd (sheba.xyz)",
+    photo: "/images/testimonials/imtiaz-mahboob.png",
+    linkedin: "https://www.linkedin.com/in/imtiazmahboob/",
   },
   {
     quote:
@@ -609,6 +621,7 @@ export const testimonials: Testimonial[] = [
     author: "Md. Ashav Noman Mahin",
     role: "Technical Project Manager",
     company: "Luminous Labs",
+    photo: "/images/testimonials/mahin.png",
   },
 ];
 
@@ -618,12 +631,14 @@ export const navLinks = [
   { label: "Projects", href: "/#projects" },
   { label: "Experience", href: "/#experience" },
   { label: "Testimonials", href: "/#testimonials" },
+  { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/#contact" },
 ];
 
 export const socials = [
   { label: "GitHub", href: profile.github, icon: Github },
   { label: "LinkedIn", href: profile.linkedin, icon: Linkedin },
+  { label: "Facebook", href: profile.facebook, icon: Facebook },
   { label: "WhatsApp", href: profile.whatsapp, icon: MessageCircle },
   { label: "Email", href: `mailto:${profile.email}`, icon: Mail },
 ];

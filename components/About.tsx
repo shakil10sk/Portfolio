@@ -100,7 +100,7 @@ export function About() {
             <SectionHeading
               eyebrow="About"
               title="An engineer who treats systems like products."
-              description="Full-Stack Software Engineer with 4+ years building scalable enterprise systems, government applications, and AI-native products. I work across backend services (Laravel, Node.js), frontend interfaces (Vue, React), DevOps practices, and production AI agents (Claude, LangChain/LangGraph, RAG) to ship reliable software."
+              description="Full-Stack Software Engineer with 5+ years building scalable enterprise systems, government applications, and AI-native products. I work across backend services (Laravel, Node.js), frontend interfaces (Vue, React), DevOps practices, and production AI agents (Claude, LangChain/LangGraph, RAG) to ship reliable software."
             />
 
             <motion.div

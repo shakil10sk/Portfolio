@@ -2,8 +2,7 @@
 
 import { motion } from "framer-motion";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Marquee } from "@/components/ui/Marquee";
-import { skillGroups, techStack } from "@/lib/data";
+import { skillGroups } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
 export function Skills() {
@@ -73,21 +72,6 @@ export function Skills() {
               </div>
             </motion.div>
           ))}
-        </div>
-
-        {/* Tech ticker */}
-        <div className="mt-14 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 overflow-hidden">
-          <div className="flex items-center gap-3 px-5 py-3 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/40">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-500">
-              ~/ daily-stack
-            </span>
-            <div className="ml-auto flex items-center gap-1.5">
-              <span className="h-2 w-2 rounded-full bg-rose-400/70" />
-              <span className="h-2 w-2 rounded-full bg-amber-400/70" />
-              <span className="h-2 w-2 rounded-full bg-emerald-400/70" />
-            </div>
-          </div>
-          <Marquee items={techStack} />
         </div>
       </div>
 

@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -9,6 +10,7 @@ import { navLinks, profile } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
 export function Navbar() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [active, setActive] = React.useState<string>("");
@@ -63,7 +65,9 @@ export function Navbar() {
 
         <nav className="hidden md:flex items-center gap-1 surface-muted rounded-full px-1.5 py-1.5">
           {navLinks.map((link) => {
-            const isActive = active === `#${link.href.split("#")[1]}`;
+            const isActive = link.href.startsWith("/#")
+              ? active === `#${link.href.split("#")[1]}`
+              : pathname.startsWith(link.href);
             return (
               <Link
                 key={link.href}

@@ -3,6 +3,7 @@ import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { profile } from "@/lib/data";
 import "./globals.css";
 
@@ -88,6 +89,9 @@ export const metadata: Metadata = {
       "max-image-preview": "large",
     },
   },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+  },
 };
 
 const personJsonLd = {
@@ -104,7 +108,7 @@ const personJsonLd = {
     addressCountry: "BD",
   },
   email: `mailto:${profile.email}`,
-  sameAs: [profile.github, profile.linkedin],
+  sameAs: [profile.github, profile.linkedin, profile.facebook],
   knowsAbout: [
     "Laravel",
     "Node.js",
@@ -144,6 +148,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
+        <GoogleAnalytics />
       </head>
       <body className="font-sans antialiased min-h-screen bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 selection:bg-indigo-500/30">
         <ThemeProvider
