@@ -18,21 +18,25 @@ import {
   Building2,
   Landmark,
   Stethoscope,
+  Bot,
+  Boxes,
+  MessageCircle,
 } from "lucide-react";
 
 export const profile = {
   name: "Md Shakil Hussain",
   shortName: "ShakilHussain",
-  role: "Full-Stack Software Engineer",
-  tagline: "Backend-focused full-stack engineer building robust, secure, production systems.",
-  bio: "Full-Stack Software Engineer with 4+ years building scalable enterprise systems, government applications, and high-traffic platforms. Deep backend experience with Laravel and Node.js, plus production-ready frontends with React, Next.js and Vue — backed by strong DevOps and API design practices.",
+  role: "Full-Stack Engineer & AI Agent Developer",
+  tagline: "Backend-focused full-stack engineer building production AI agents, ERP platforms and secure systems.",
+  bio: "Full-Stack Software Engineer with 4+ years building scalable enterprise systems, government platforms and AI-native products. Deep backend experience with Laravel and Node.js, production-ready frontends with React, Next.js and Vue, and hands-on work building LLM-powered AI agents with Claude, LangChain/LangGraph and RAG pipelines — backed by strong DevOps and API design practices.",
   location: "Dhaka, Bangladesh",
   email: "shakilh039@gmail.com",
   phone: "+8801636-639790",
   github: "https://github.com/shakil10sk",
   linkedin: "https://www.linkedin.com/in/shakil-hussain-h039/",
+  whatsapp: "https://wa.me/8801636639790",
   resumeUrl: "/cv/One_page_cv_shakil-compressed.pdf",
-  availability: "Open to remote backend & full-stack roles",
+  availability: "Open to remote AI, backend & full-stack roles",
   // ── IMAGE SLOTS ────────────────────────────────────────────────────────
   // Set these paths once you've dropped files into /public/images/.
   // While `undefined`, the UI shows beautiful generated placeholders.
@@ -46,16 +50,16 @@ export const profile = {
 };
 
 export const heroBadges = [
-  { label: "React", x: "-8%", y: "8%", delay: 0 },
-  { label: "Next.js", x: "92%", y: "14%", delay: 0.3 },
-  { label: "TypeScript", x: "-12%", y: "62%", delay: 0.6 },
-  { label: "Tailwind", x: "94%", y: "70%", delay: 0.9 },
+  { label: "Laravel", x: "-8%", y: "8%", delay: 0 },
+  { label: "Node.js", x: "92%", y: "14%", delay: 0.3 },
+  { label: "PostgreSQL", x: "-12%", y: "62%", delay: 0.6 },
+  { label: "LangChain", x: "94%", y: "70%", delay: 0.9 },
 ];
 
 export const stats = [
   { label: "Years of experience", value: "4+" },
   { label: "Production projects", value: "20+" },
-  { label: "Companies", value: "3" },
+  { label: "Companies", value: "4" },
   { label: "Users served", value: "Millions" },
 ];
 
@@ -68,6 +72,25 @@ export type SkillGroup = {
 };
 
 export const skillGroups: SkillGroup[] = [
+  {
+    title: "AI & Agentic Engineering",
+    icon: Bot,
+    description:
+      "Building production AI agents and LLM-powered workflows — from retrieval pipelines to autonomous, multi-step agents.",
+    items: [
+      "Claude API",
+      "Claude Code",
+      "LangChain",
+      "LangGraph",
+      "RAG",
+      "Vector DBs",
+      "AI Agents",
+      "n8n",
+      "Prompt Engineering",
+      "LLM Evaluation",
+    ],
+    accent: "from-teal-500/20 to-cyan-500/10",
+  },
   {
     title: "Backend & APIs",
     icon: Database,
@@ -153,6 +176,12 @@ export const flatSkills = [
   "AWS",
   "Redis",
   "Kubernetes",
+  "Claude Code",
+  "LangChain",
+  "LangGraph",
+  "RAG",
+  "AI Agents",
+  "n8n",
 ];
 
 export type Project = {
@@ -165,7 +194,7 @@ export type Project = {
   accent: string;
   link?: string;
   github?: string;
-  category: "Government" | "Fintech" | "E-commerce" | "Internal Tool";
+  category: "Government" | "Fintech" | "E-commerce" | "ERP" | "Internal Tool";
   /** Optional single cover image. Drop a 1600x900 file at e.g. /public/images/projects/rajuk.jpg */
   image?: string;
   /**
@@ -181,34 +210,54 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    title: "LuminERP — DeshiPOS",
+    category: "ERP",
+    summary: "All-in-one POS & ERP platform for retail, supershops and restaurants.",
+    description:
+      "A complete multi-branch ERP and point-of-sale platform — sales, inventory, accounting, and customer & staff management in one system. My latest fully-owned build: designed and shipped end-to-end solo, from database schema to production deployment, directing Claude Code daily to accelerate delivery.",
+    stack: ["Laravel", "Vue.js", "MySQL", "Redis", "Claude Code"],
+    highlights: [
+      "Multi-branch inventory & stock management",
+      "Unified sales, accounting and staff modules",
+      "Designed, built and shipped solo, end-to-end",
+    ],
+    icon: Boxes,
+    accent: "from-teal-500/30 to-emerald-500/10",
+    theme: "emerald",
+    image: "/images/projects/deshipos.jpg",
+    link: "https://deshipos.com/",
+  },
+  {
     title: "Voice Nimble — AI Voice Agents",
     category: "Internal Tool",
     summary: "AI voice calling agents for customer qualification and support.",
     description:
-      "A SaaS product providing AI voice agents that answer, qualify and convert customer calls 24/7. Implemented frontend landing pages and integrated with telephony APIs for production call flows.",
-    stack: ["Node.js", "React", "Twilio / Telephony", "Docker"],
+      "A SaaS product providing AI voice agents that answer, qualify and convert customer calls 24/7. Built the agent's reasoning and knowledge layer with Claude, RAG and LangGraph-orchestrated conversation flows, plus the customer-facing frontend and telephony integration.",
+    stack: ["Claude API", "LangChain", "LangGraph", "RAG", "Vector DB", "n8n", "Node.js", "Vue.js"],
     highlights: [
-      "AI-driven call qualification",
-      "Production telephony integration",
-      "Customer-facing landing and analytics",
+      "RAG pipeline + vector DB for real-time call context retrieval",
+      "LangGraph-orchestrated multi-step conversation & escalation flows",
+      "n8n workflows automating lead handoff and CRM sync",
+      "Production telephony integration for live call handling",
+      "Directed with Claude Code daily across the full build",
     ],
     icon: Globe,
     accent: "from-indigo-500/30 to-violet-500/10",
     theme: "violet",
-    image: "/images/projects/voicenimble.jpg",
+    image: "/images/projects/voicenimble.webp",
     link: "https://voicenimble.com/",
   },
   {
-    title: "Overwatch — Admin Dashboard",
+    title: "Overwatch — Land Monitoring Platform",
     category: "Internal Tool",
-    summary: "Admin dashboard and operations console for agricultural services.",
+    summary: "Satellite-data land monitoring and tender management for agriculture.",
     description:
-      "A modern admin dashboard for operations and analytics. Built responsive UI components, performance-optimised list views and monitoring surfaces for system health and user management.",
-    stack: ["React", "TypeScript", "Tailwind", "Node.js"],
+      "A land monitoring and tender management platform built solo as backend engineer. Users create tenders against one or more land parcels; for each parcel the system pulls Google Earth Engine (GEE) satellite data and analyzes 5 years of historical imagery to generate reports on monthly land condition and which crops are viable to grow.",
+    stack: ["Node.js", "Google Earth Engine", "React", "TypeScript", "Tailwind"],
     highlights: [
-      "Real-time metrics and activity feeds",
-      "Operator-focused workflows",
-      "Performance optimisations for large datasets",
+      "Tender creation across multiple land parcels",
+      "Google Earth Engine integration for satellite land data",
+      "5-year historical analysis driving monthly land-status & crop-viability reports",
     ],
     icon: Layers,
     accent: "from-sky-500/30 to-blue-500/10",
@@ -249,7 +298,8 @@ export const projects: Project[] = [
     icon: CreditCard,
     accent: "from-fuchsia-500/30 to-pink-500/10",
     theme: "fuchsia",
-    // image: "/images/projects/sheba.jpg",
+    image: "/images/projects/sheba.png",
+    link: "https://sheba.xyz",
   },
   {
     title: "Marketing Olympiad",
@@ -266,7 +316,8 @@ export const projects: Project[] = [
     icon: Trophy,
     accent: "from-amber-500/30 to-orange-500/10",
     theme: "amber",
-    // image: "/images/projects/olympiad.jpg",
+    image: "/images/projects/marketingolympiad.jpg",
+    link: "https://marketingolympiad.com/",
   },
   {
     title: "AmarParcel Delivery",
@@ -283,7 +334,7 @@ export const projects: Project[] = [
     icon: Truck,
     accent: "from-rose-500/30 to-red-500/10",
     theme: "rose",
-    // image: "/images/projects/amarparcel.jpg",
+    image: "/images/projects/amarparcel.png",
   },
   {
     title: "RAJUK EPMS",
@@ -301,6 +352,7 @@ export const projects: Project[] = [
     accent: "from-indigo-500/30 to-violet-500/10",
     theme: "indigo",
     image: "/images/projects/rajuk.png",
+    link: "https://epms.rajuk.gov.bd/",
     // images: [
     //   "/images/projects/rajuk-1.jpg",
     //   "/images/projects/rajuk-2.jpg",
@@ -322,7 +374,8 @@ export const projects: Project[] = [
     icon: Landmark,
     accent: "from-sky-500/30 to-blue-500/10",
     theme: "sky",
-    // image: "/images/projects/btrc.jpg",
+    image: "/images/projects/btrc.png",
+    link: "https://lims.btrc.gov.bd/",
   },
   {
     title: "Pharmacy POS",
@@ -371,6 +424,22 @@ export type Experience = {
 };
 
 export const experiences: Experience[] = [
+  {
+    company: "Luminous Labs BD",
+    role: "AI Developer (Freelance / Contract)",
+    period: "Jan 2026 – Present",
+    location: "Dhaka, Bangladesh · Remote",
+    summary:
+      "Building AI-native products end-to-end — an LLM-powered voice agent and a full ERP/POS platform — directing Claude Code and agentic workflows daily.",
+    highlights: [
+      "Built voicenimble.com end-to-end — Claude API, RAG + vector DB retrieval, and LangGraph-orchestrated conversation flows.",
+      "Automated lead handoff and CRM sync with n8n workflows around the voice agent.",
+      "Designed and ran LLM evaluation pipelines to test AI outputs, triage failures and ensure agent reliability.",
+      "Built and shipped LuminERP (DeshiPOS) — a multi-branch POS/ERP platform — solo, end-to-end.",
+      "Uses Claude Code and GitHub Copilot daily to direct agents, review output and accelerate delivery across concurrent projects.",
+    ],
+    stack: ["Claude API", "Claude Code", "LangChain", "LangGraph", "RAG", "n8n", "Node.js", "Laravel"],
+  },
   {
     company: "Sheba Platform Ltd",
     role: "Software Engineer",
@@ -473,12 +542,14 @@ export const navLinks = [
 export const socials = [
   { label: "GitHub", href: profile.github, icon: Github },
   { label: "LinkedIn", href: profile.linkedin, icon: Linkedin },
+  { label: "WhatsApp", href: profile.whatsapp, icon: MessageCircle },
   { label: "Email", href: `mailto:${profile.email}`, icon: Mail },
 ];
 
 export const contactItems = [
   { label: "Email", value: profile.email, href: `mailto:${profile.email}`, icon: Mail },
   { label: "Phone", value: profile.phone, href: `tel:${profile.phone.replace(/\s|-/g, "")}`, icon: Phone },
+  { label: "WhatsApp", value: profile.phone, href: profile.whatsapp, icon: MessageCircle },
   { label: "Location", value: profile.location, href: undefined, icon: MapPin },
   { label: "GitHub", value: "shakil10sk", href: profile.github, icon: Github },
   { label: "Website", value: "shakilhussain.dev", href: "#", icon: Globe },

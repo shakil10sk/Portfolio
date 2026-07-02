@@ -10,6 +10,7 @@ import {
   Award,
   ImageIcon,
   Quote,
+  Bot,
 } from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { stats, education, profile } from "@/lib/data";
@@ -29,6 +30,11 @@ const pillars = [
     icon: Workflow,
     title: "Ship-it mindset",
     body: "Docker, CI/CD and AWS — I take features all the way from ticket to production.",
+  },
+  {
+    icon: Bot,
+    title: "AI agent engineering",
+    body: "Production LLM agents with Claude, LangChain/LangGraph, RAG and vector DBs — orchestrated with n8n workflows.",
   },
 ];
 
@@ -94,7 +100,7 @@ export function About() {
             <SectionHeading
               eyebrow="About"
               title="An engineer who treats systems like products."
-              description="Full-Stack Software Engineer with 4+ years building scalable enterprise systems, government applications, and high-traffic platforms. I work across backend services (Laravel, Node.js), frontend interfaces (Vue, React) and DevOps practices to ship reliable production software."
+              description="Full-Stack Software Engineer with 4+ years building scalable enterprise systems, government applications, and AI-native products. I work across backend services (Laravel, Node.js), frontend interfaces (Vue, React), DevOps practices, and production AI agents (Claude, LangChain/LangGraph, RAG) to ship reliable software."
             />
 
             <motion.div

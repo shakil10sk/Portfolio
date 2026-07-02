@@ -10,12 +10,13 @@ import {
   Linkedin,
   Mail,
   MapPin,
+  MessageCircle,
   Sparkles,
   Star,
 } from "lucide-react";
 import { Avatar } from "@/components/ui/Avatar";
 import { Marquee } from "@/components/ui/Marquee";
-import { profile, flatSkills, heroBadges } from "@/lib/data";
+import { profile, flatSkills, heroBadges, stats } from "@/lib/data";
 
 export function Hero() {
   return (
@@ -54,8 +55,8 @@ export function Hero() {
               transition={{ duration: 0.6, delay: 0.05 }}
               className="mt-6 font-display font-semibold tracking-[-0.03em] text-[2.6rem] leading-[1.04] sm:text-6xl lg:text-[5.25rem] lg:leading-[0.98]"
             >
-              <span className="block text-gradient">Backend-focused</span>
               <span className="block text-gradient">Full-Stack Engineer</span>
+              <span className="block text-gradient">&amp; AI Agent Developer</span>
             </motion.h1>
 
             <motion.p
@@ -64,7 +65,7 @@ export function Hero() {
               transition={{ duration: 0.5, delay: 0.15 }}
               className="mt-7 max-w-xl text-base sm:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed"
             >
-              I'm <span className="font-medium text-zinc-900 dark:text-zinc-100">{profile.name}</span> — a {profile.role.toLowerCase()} based in {profile.location}. I design and build robust backend systems with Laravel and Node.js, and deliver production-ready frontends with React, Next.js and Vue.
+              I'm <span className="font-medium text-zinc-900 dark:text-zinc-100">{profile.name}</span> — a {profile.role.toLowerCase()} based in {profile.location}. I design and build robust backend systems with Laravel and Node.js, deliver production-ready frontends with React, Next.js and Vue, and build AI agents with Claude, LangChain/LangGraph and RAG pipelines.
             </motion.p>
 
             <motion.div
@@ -104,9 +105,9 @@ export function Hero() {
               transition={{ duration: 0.5, delay: 0.35 }}
               className="mt-12 grid grid-cols-3 max-w-md gap-6 border-t border-zinc-200 dark:border-zinc-800 pt-6"
             >
-              <Stat label="Years" value="4+" />
-              <Stat label="Projects" value="20+" />
-              <Stat label="Companies" value="3" />
+              <Stat label="Years" value={stats[0].value} />
+              <Stat label="Projects" value={stats[1].value} />
+              <Stat label="Companies" value={stats[2].value} />
             </motion.div>
           </div>
 
@@ -145,7 +146,7 @@ export function Hero() {
 
                 <div className="mt-6 grid grid-cols-3 gap-2 rounded-2xl bg-zinc-50 dark:bg-zinc-900/60 p-3 ring-1 ring-zinc-200 dark:ring-zinc-800">
                   <Mini label="Stack" value="Laravel | Node | Vue | React" />
-                  <Mini label="Focus" value="Backend" />
+                  <Mini label="Focus" value="Backend + AI" />
                   <Mini label="Mode" value="Remote" />
                 </div>
 
@@ -174,6 +175,15 @@ export function Hero() {
                     className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:border-indigo-300 transition-colors"
                   >
                     <Linkedin className="h-4 w-4" />
+                  </a>
+                  <a
+                    href={profile.whatsapp}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="WhatsApp"
+                    className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:border-indigo-300 transition-colors"
+                  >
+                    <MessageCircle className="h-4 w-4" />
                   </a>
                   <Link
                     href="#contact"

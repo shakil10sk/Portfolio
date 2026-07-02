@@ -24,45 +24,101 @@ const mono = JetBrains_Mono({
   display: "swap",
 });
 
+const seoDescription =
+  "Md Shakil Hussain — Full-Stack Software Engineer building Laravel/Node.js backends, React/Vue frontends, and production AI agents with Claude, LangChain, LangGraph, RAG and vector DBs. Based in Dhaka, remote-first.";
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://shakilhussain.dev"),
   title: {
     default: `${profile.name} — ${profile.role}`,
     template: `%s · ${profile.name}`,
   },
-  description: profile.bio,
+  description: seoDescription,
   keywords: [
     "Md Shakil Hussain",
-    "Frontend Developer",
     "Full-Stack Engineer",
+    "Full-Stack Developer Bangladesh",
+    "AI Agent Developer",
+    "LLM Integration Engineer",
+    "Claude API Developer",
+    "Claude Code",
+    "LangChain Developer",
+    "LangGraph",
+    "RAG Engineer",
+    "Vector Database",
+    "n8n Automation",
+    "Voice AI Developer",
+    "ERP Developer",
+    "POS Software Developer",
+    "Laravel Developer",
+    "Node.js Developer",
     "React",
     "Next.js",
     "Vue.js",
     "Nuxt.js",
-    "Laravel",
     "TypeScript",
+    "Remote Software Engineer",
     "Dhaka",
     "Bangladesh",
   ],
   authors: [{ name: profile.name, url: profile.github }],
   creator: profile.name,
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://shakilhussain.dev",
     siteName: profile.name,
     title: `${profile.name} — ${profile.role}`,
-    description: profile.bio,
+    description: seoDescription,
   },
   twitter: {
     card: "summary_large_image",
     title: `${profile.name} — ${profile.role}`,
-    description: profile.bio,
+    description: seoDescription,
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+    },
   },
+};
+
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: profile.name,
+  url: "https://shakilhussain.dev",
+  image: "https://shakilhussain.dev/images/shakil.jpeg",
+  jobTitle: profile.role,
+  description: seoDescription,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Dhaka",
+    addressCountry: "BD",
+  },
+  email: `mailto:${profile.email}`,
+  sameAs: [profile.github, profile.linkedin],
+  knowsAbout: [
+    "Laravel",
+    "Node.js",
+    "React",
+    "Next.js",
+    "Vue.js",
+    "AI Agent Development",
+    "Claude API",
+    "LangChain",
+    "LangGraph",
+    "RAG",
+    "Vector Databases",
+    "n8n",
+  ],
 };
 
 export const viewport: Viewport = {
@@ -83,6 +139,12 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${inter.variable} ${space.variable} ${mono.variable}`}
     >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
+      </head>
       <body className="font-sans antialiased min-h-screen bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 selection:bg-indigo-500/30">
         <ThemeProvider
           attribute="class"
